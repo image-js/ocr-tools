@@ -1,6 +1,8 @@
 'use strict'
 
 var IJS=require('image-js');
+var SYMBOLS=require('./symbolClasses').SYMBOLS;
+
 
 function generateSymbolImage(options = {}) {
     let {
@@ -8,15 +10,11 @@ function generateSymbolImage(options = {}) {
         numberPerLine=20,
         rotation=2,
         font='Helvetica',
-        backgroundColor=255
+        backgroundColor=255,
+        symbols=SYMBOLS
     } = options;
 
-
-    var symbols=[];
-    for (var i='0'.charCodeAt(0); i<='9'.charCodeAt(0); i++) symbols.push(i);
-    for (var i='A'.charCodeAt(0); i<='Z'.charCodeAt(0); i++) symbols.push(i);
-    for (var i='a'.charCodeAt(0); i<='z'.charCodeAt(0); i++) symbols.push(i);
-
+    
 
     var grid=Math.floor(size*1.2);
     font=size+'px '+font;
