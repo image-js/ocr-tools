@@ -1,6 +1,7 @@
 var createFontFingerprint=require('../src/createFontFingerprint');
 var symbols=require('../src/util/symbolClasses').NUMBERS;
 var debugFingerprints=require('../src/debugFingerprints');
+var FS=require('fs');
 
 var options={
     roiMinSurface: 10,
@@ -19,6 +20,17 @@ var options={
 var results=createFontFingerprint(options);
 
 console.log(results);
+
+
+var kind=options.fingerprintWidth+'x'+options.fingerprintHeight;
+var folder='fingerprints/'+kind+'/';
+
+if (!FS.existsSync(folder)) {
+    FS.mkdirSync(folder);
+}
+
+FS.writeFileSync(folder+options.font+'.json',JSON.stringify(results))
+
 
 debugFingerprints(results);
 
