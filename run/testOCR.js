@@ -2,6 +2,7 @@ var FS=require('fs');
 
 var runOCR=require('../src/runOCR');
 var IJS=require('image-js');
+var loadFingerprints=require('../src/util/loadFingerprint');
 
 var options={
     roiMinSurface: 10,
@@ -11,19 +12,19 @@ var options={
     fingerprintMinSimilarity:0.8 // minimal similarity to consider the result
 };
 
-var fingerprintOptions={
+var fingerprints=loadFingerprints({
     width: 8,
     height: 8,
-    font: 'Helvetica'
-}
-
-var kind=fingerprintOptions.width+'x'+fingerprintOptions.height;
-var folder='fingerprints/'+kind+'/';
-var fingerprints=JSON.parse(FS.readFileSync(folder+fingerprintOptions.font+'.json'));
+    font: 'ocrb'
+});
 
 
+IJS.load('demo/ocrb.png').then(function(image) {
+    var results=runOCR(image, fingerprints, options);
+});
 
-var results=runOCR(image, fingerprints, options);
+
+
 
 
 

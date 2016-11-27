@@ -1,5 +1,5 @@
 var createFontFingerprint=require('../src/createFontFingerprint');
-var symbols=require('../src/util/symbolClasses').NUMBERS;
+var symbols=require('../src/util/symbolClasses').MRZ;
 var saveFingerprint=require('../src/util/saveFingerprint');
 var FS=require('fs');
 

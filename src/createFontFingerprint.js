@@ -32,9 +32,9 @@ module.exports=function createFontFingerprint(options={}) {
     var manager = image.getRoiManager();
     manager.fromMask(mask);
     var rois=manager.getRois({
-        minSurface: 10,
-        positive: true,
-        negative: false
+        minSurface: roiMinSurface,
+        positive: roiPositive,
+        negative: roiNegative
     });
 
     rois.forEach(function(roi) {
