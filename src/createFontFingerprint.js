@@ -1,7 +1,8 @@
 var generateSymbolImage=require('../src/util/generateSymbolImage');
-var groupRoisPerLine=require('../src/util/groupRoisPerLine');
-var symbols=require('../src/util/symbolClasses').NUMBERS;
+var symbols=require('../src/util/symbolClasses').SYMBOL;
 var appendFingerprints=require('../src/util/appendFingerprints');
+var getLinesFromImage=require('./util/getLinesFromImage');
+
 
 module.exports=function createFontFingerprint(options={}) {
     var {
@@ -25,24 +26,17 @@ module.exports=function createFontFingerprint(options={}) {
         numberPerLine: numberPerLine
     });
 
-    var grey=image.grey();
-    var mask=grey.mask({threshold: greyThreshold});
-    mask.invert();
 
-    var manager = image.getRoiManager();
-    manager.fromMask(mask);
-    var rois=manager.getRois({
-        minSurface: roiMinSurface,
-        positive: roiPositive,
-        negative: roiNegative
-    });
+    var lines=getLinesFromImage(image, {
+            greyThreshold,
+            roiMinSurface,
+            roiPositive,
+            roiNegative,
+            fingerprintWidth,
+            fingerprintHeight
+        }
+    );
 
-    rois.forEach(function(roi) {
-        var small=roi.getMask().scale({width:fingerprintWidth, height:fingerprintHeight});
-        roi.data=Array.from(small.data);
-    });
-
-    var lines=groupRoisPerLine(rois, {});
     
 // we have the lines in the correct order, it should match directly the font
     for (var i=0; i<lines.length; i++) {

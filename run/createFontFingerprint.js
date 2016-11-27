@@ -1,5 +1,5 @@
 var createFontFingerprint=require('../src/createFontFingerprint');
-var symbols=require('../src/util/symbolClasses').SYMBOLS;  // SYMBOLS MRZ NUMBERS
+var symbols=require('../src/util/symbolClasses').MRZ;  // SYMBOLS MRZ NUMBERS
 var saveFingerprint=require('../src/util/saveFingerprint');
 var FS=require('fs');
 
