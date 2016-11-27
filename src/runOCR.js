@@ -2,7 +2,6 @@ var groupRoisPerLine = require('./util/groupRoisPerLine');
 var bestMatch = require('./util/bestMatch');
 
 module.exports=function runOCR(image, fingerprints, options) {
-    
     var {
         roiMinSurface= 10,
         roiPositive=true,
