@@ -10,7 +10,8 @@ var groupRoisPerLine=require('../src/util/groupRoisPerLine');
 var symbols=require('../src/util/symbolClasses').NUMBERS;
 var tanimotoSimilarity=require('../src/util/tanimotoSimilarity');
 var byteArrayToBinary=require('../src/util/byteArrayToBinary');
-
+var appendFingerprints=require('../src/util/appendFingerprints');
+var bestMatch=require('../src/util/bestMatch');
 
 var options={
     symbols: symbols,
@@ -57,6 +58,13 @@ for (var i=0; i<lines.length; i++) {
 appendFingerprints(lines);
 debugFingerprints(lines);
 
+for (var line of lines) {
+    console.log('-------------------',line.symbol,'---------------');
+    var theBestMatch=bestMatch(line.fingerprints[4], lines);
+    console.log(theBestMatch.symbol, theBestMatch.similarity);
+}
+
+
 // need to calculate the fingerprint for each character
 // DEBUG procedure to check the binary string generated. Works better with 8 bits ...
 if (false) {
@@ -87,28 +95,8 @@ if (false) {
 }
 
 
-function appendFingerprints(lines, options={}) {
-    var {
-        maxSimilarity=1
-    } = options;
-    
-    for (var line of lines) {
-        var rois=line.rois;
-        if (!line.fingerprints) line.fingerprints=[];
-        for (var roi of line.rois) {
-            var isNew=true;
-            for (var fingerprint of line.fingerprints) {
-                if (tanimotoSimilarity(fingerprint, roi.data)>=maxSimilarity) {
-                    isNew=false;
-                    break;
-                };
-            }
-            if (isNew) {
-                line.fingerprints.push(roi.data);
-            }
-        }
-    }
-}
+
+
 
 function debugFingerprints(lines) {
     for (var line of lines) {
@@ -120,4 +108,3 @@ function debugFingerprints(lines) {
     }
 }
 
-image.save('test.png');
