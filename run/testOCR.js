@@ -1,5 +1,8 @@
 var FS=require('fs');
 
+var runOCR=require('../src/runOCR');
+var IJS=require('image-js');
+
 var options={
     roiMinSurface: 10,
     roiPositive: true,
@@ -14,7 +17,6 @@ var fingerprintOptions={
     font: 'Helvetica'
 }
 
-
 var kind=fingerprintOptions.width+'x'+fingerprintOptions.height;
 var folder='fingerprints/'+kind+'/';
 var fingerprints=JSON.parse(FS.readFileSync(folder+fingerprintOptions.font+'.json'));
@@ -22,7 +24,6 @@ var fingerprints=JSON.parse(FS.readFileSync(folder+fingerprintOptions.font+'.jso
 
 
 var results=runOCR(image, fingerprints, options);
-
 
 
 

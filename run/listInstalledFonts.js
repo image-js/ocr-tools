@@ -6,7 +6,12 @@ var names=fonts.map(a=>a.postscriptName);
 names.sort();
 
 
+names.forEach(function(a) {
+    if (a.toLowerCase().includes('ocr')) {
+        console.log(a);
+    }
+})
 
 
 
-console.log(names);
+// console.log(names);
