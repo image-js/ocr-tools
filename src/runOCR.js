@@ -24,22 +24,38 @@ module.exports=function runOCR(image, fingerprints, options) {
     
     
     // we try to analyse each line
+    var totalSimilarity=0;
+    var totalFound=0;
+    var totalNotFound=0;
     for (var line of lines) {
         line.text='';
+        line.similarity=0;
+        line.found=0;
+        line.notFound=0;
         var rois=line.rois;
         for (var roi of rois) {
             var data=roi.data;
             var match=bestMatch(data, fingerprints);
             if (match.similarity>fingerprintMinSimilarity) {
                 line.text+=match.symbol;
+                line.similarity+=match.similarity;
+                line.found++;
             } else {
                 line.text+='?';
+                line.notFound++;
             }
         }
-        console.log(line.text);
+        totalSimilarity+=line.similarity;
+        totalFound+=line.found;
+        totalNotFound+=line.notFound;
     }
     
-    return lines;
+    return {
+        lines,
+        totalSimilarity,
+        totalFound,
+        totalNotFound
+    };
     
 }
 
