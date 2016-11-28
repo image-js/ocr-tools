@@ -1,7 +1,6 @@
-var FS=require('fs');
 var runOCR=require('../src/runOCR');
 var IJS=require('image-js');
-var loadFingerprints=require('../src/util/loadFingerprint');
+var loadFingerprint=require('../src/util/loadFingerprint');
 
 var options={
     roiMinSurface: 30,
@@ -11,7 +10,7 @@ var options={
     fingerprintMinSimilarity:0.7 // minimal similarity to consider the result
 };
 
-var fingerprints=loadFingerprints({
+var fingerprints=loadFingerprint({
     width: 8,
     height: 8,
     font: 'ocrb' // dejavusans ocrb iwona

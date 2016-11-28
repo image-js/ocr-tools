@@ -1,7 +1,7 @@
-var getLinesFromImage=require('./util/getLinesFromImage');
 var doOcrOnLines = require('./util/doOcrOnLines');
+var getLinesFromImage=require('./util/getLinesFromImage');
 
-module.exports=function runOCR(image, fontFingerprint, options) {
+module.exports=function runFontAnalysis(image, fingerprints, options) {
     var {
         roiMinSurface= 10,
         roiPositive=true,
@@ -22,9 +22,15 @@ module.exports=function runOCR(image, fontFingerprint, options) {
         }
     );
 
-    return doOcrOnLines(lines, fontFingerprint, {
-        minSimilarity: fingerprintMinSimilarity
-    });
+    var results=[];
+    for (var fontFingerprint of fingerprints) {
+        var result=doOcrOnLines(lines, fontFingerprint.fingerprint, {
+            minSimilarity: fingerprintMinSimilarity
+        });
+        result.font=fontFingerprint.font;
+        results.push(result);
+    }
     
+    return results.sort((a,b) => b.totalSimilarity-a.totalSimilarity);
 };
 
