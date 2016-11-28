@@ -8,17 +8,21 @@ var options={
     roiPositive: true,
     roiNegative: false,
     greyThreshold: 0.5,
-    fingerprintMinSimilarity:0.7 // minimal similarity to consider the result
+    fingerprintMinSimilarity:0.7, // minimal similarity to consider the result,
+    fingerprintWidth: 12,
+    fingerprintHeight: 12
 };
 
 var fingerprints=loadFingerprints({
-    width: 8,
-    height: 8
+    width: options.fingerprintWidth,
+    height: options.fingerprintHeight
 });
 
 
 IJS.load('demo/ocrb.png').then(function(image) {
     var results=runFontAnalysis(image, fingerprints, options);
+    
+    results=results.slice(0,10);
     
     for (var result of results) {
         console.log(result.font, 

@@ -19,7 +19,7 @@ var fingerprints=loadFingerprint({
 
 IJS.load('demo/ocrb.png').then(function(image) {
     var result=runOCR(image, fingerprints, options);
-    
+
     for (var line of result.lines) {
         console.log(line.text, line.similarity, ' Found:',line.found, ' Not found:',line.notFound);
     }
