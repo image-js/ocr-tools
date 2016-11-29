@@ -1,7 +1,7 @@
 'use strict'
 
 var IJS=require('image-js');
-var SYMBOLS=require('./symbolClasses').SYMBOLS;
+var SYMBOLS=require('./symbolClasses').MRZ;
 
 
 function generateSymbolImage(options = {}) {
@@ -11,7 +11,7 @@ function generateSymbolImage(options = {}) {
         rotation=2,
         font='Helvetica',
         backgroundColor=255,
-        symbols=SYMBOLS
+        symbols=SYMBOLS.symbols
     } = options;
 
     

@@ -1,20 +1,20 @@
 'use strict'
 
-const SYMBOLS=[];
-for (var i='0'.charCodeAt(0); i<='9'.charCodeAt(0); i++) SYMBOLS.push(i);
-for (var i='A'.charCodeAt(0); i<='Z'.charCodeAt(0); i++) SYMBOLS.push(i);
-for (var i='a'.charCodeAt(0); i<='z'.charCodeAt(0); i++) SYMBOLS.push(i);
+const LETTERS_NUMBERS={symbols: [], label:'lettersNumbers'};
+for (var i='0'.charCodeAt(0); i<='9'.charCodeAt(0); i++) LETTERS_NUMBERS.symbols.push(i);
+for (var i='A'.charCodeAt(0); i<='Z'.charCodeAt(0); i++) LETTERS_NUMBERS.symbols.push(i);
+for (var i='a'.charCodeAt(0); i<='z'.charCodeAt(0); i++) LETTERS_NUMBERS.symbols.push(i);
 
-const NUMBERS=[];
-for (var i='0'.charCodeAt(0); i<='9'.charCodeAt(0); i++) NUMBERS.push(i);
+const NUMBERS={symbols: [], label:'numbers'};
+for (var i='0'.charCodeAt(0); i<='9'.charCodeAt(0); i++) NUMBERS.symbols.push(i);
 
-const MRZ=[];
-for (var i='0'.charCodeAt(0); i<='9'.charCodeAt(0); i++) MRZ.push(i);
-for (var i='A'.charCodeAt(0); i<='Z'.charCodeAt(0); i++) MRZ.push(i);
-MRZ.push('<'.charCodeAt(0));
+const MRZ={symbols: [], label:'mrz'};
+for (var i='0'.charCodeAt(0); i<='9'.charCodeAt(0); i++) MRZ.symbols.push(i);
+for (var i='A'.charCodeAt(0); i<='Z'.charCodeAt(0); i++) MRZ.symbols.push(i);
+MRZ.symbols.push('<'.charCodeAt(0));
 
 module.exports={
-    SYMBOLS,
+    LETTERS_NUMBERS,
     NUMBERS,
     MRZ
 }

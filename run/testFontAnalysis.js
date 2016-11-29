@@ -1,7 +1,7 @@
-
 var IJS=require('image-js');
 var loadFingerprints=require('../src/util/loadFingerprints');
 var runFontAnalysis=require('../src/runFontAnalysis');
+var symbols=require('../src/util/symbolClasses').MRZ;  // SYMBOLS MRZ NUMBERS
 
 var options={
     roiMinSurface: 30,
@@ -15,7 +15,8 @@ var options={
 
 var fingerprints=loadFingerprints({
     width: options.fingerprintWidth,
-    height: options.fingerprintHeight
+    height: options.fingerprintHeight,
+    category: symbols.label
 });
 
 

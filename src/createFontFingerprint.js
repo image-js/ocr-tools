@@ -1,5 +1,5 @@
 var generateSymbolImage=require('../src/util/generateSymbolImage');
-var symbols=require('../src/util/symbolClasses').SYMBOL;
+var SYMBOLS=require('../src/util/symbolClasses').MRZ;
 var appendFingerprints=require('../src/util/appendFingerprints');
 var getLinesFromImage=require('./util/getLinesFromImage');
 
@@ -9,11 +9,12 @@ module.exports=function createFontFingerprint(options={}) {
         roiMinSurface=10,
         roiPositive=true,
         roiNegative=false,
-        symbols=symbols,
+        symbols=SYMBOLS.symbols,
         fontSize=48,
         font='Helvetica',
-        numberPerLine=11,
+        numberPerLine=11, // better a odd number to allow straight characters during rotation
         greyThreshold=0.5,
+        allowedRotation=2, // we allow plus minus 2 degree of rotation
         fingerprintWidth=8,
         fingerprintHeight=8,
         fingerprintMaxSimilarity=1 // we store all the different fingerprints
@@ -23,7 +24,8 @@ module.exports=function createFontFingerprint(options={}) {
         symbols: symbols,
         size: fontSize,
         font:font,
-        numberPerLine: numberPerLine
+        numberPerLine: numberPerLine,
+        rotation: allowedRotation
     });
 
 
@@ -37,14 +39,19 @@ module.exports=function createFontFingerprint(options={}) {
         }
     );
 
-    
+    var valid=true;
 // we have the lines in the correct order, it should match directly the font
     for (var i=0; i<lines.length; i++) {
         var line=lines[i];
         line.symbol=String.fromCharCode(options.symbols[i]);
         if (line.rois.length!==options.numberPerLine) {
-            console.log('Length not equal for '+line.symbol);
+            console.log('Number of symbol on the line not correct for: '+line.symbol);
+            valid=false;
         }
+    }
+    if (lines.length!=symbols.length) {
+        console.log('Number of lines not correct: ',lines.length, symbols.length);
+        valid=false;
     }
 
     appendFingerprints(lines, {maxSimilarity: fingerprintMaxSimilarity});
@@ -56,6 +63,9 @@ module.exports=function createFontFingerprint(options={}) {
                 fingerprints: line.fingerprints
             }
         }
-    )
-    return results;
+    );
+    return {
+        valid,
+        results
+    };
 }

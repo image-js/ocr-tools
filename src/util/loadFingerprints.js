@@ -4,13 +4,14 @@ module.exports=function loadFingerprint(options = {}) {
 
     var {
         width=8,
-        height=8
+        height=8,
+        category=''
     } = options;
 
     var fingerprints=[];
     
     var kind=width+'x'+height;
-    var folder='fingerprints/'+kind+'/';
+    var folder='fingerprints/'+kind+'/'+category+'/';
 
     var dir=FS.readdirSync(folder);
     
