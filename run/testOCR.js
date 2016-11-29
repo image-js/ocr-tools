@@ -10,16 +10,15 @@ var options={
     fingerprintHeight: 12,
     fingerprintWidth: 12,
     greyThreshold: 0.5,
-    font: 'ocrb_regular', // dejavusans ocrb_regular iwona
+    font: 'ocrb', // dejavusans ocrb iwona
     fingerprintMinSimilarity:0.7 // minimal similarity to consider the result
 };
 
 
-var fingerprints=loadFingerprint({
+var fingerprints=loadFingerprint(options.font, {
     width: options.fingerprintHeight,
     height: options.fingerprintHeight,
-    category: symbols.label,
-    font: options.font
+    category: symbols.label
 });
 
 

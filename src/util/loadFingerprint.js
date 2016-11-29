@@ -1,20 +1,10 @@
+var getFingerprintName = require('./getFingerprintName');
+
 var FS=require('fs');
 
-module.exports=function loadFingerprint(options = {}) {
-
-    var {
-        width=8,
-        height=8,
-        font='helvetica',
-        category=''
-    } = options;
-
-    var font=font.toLowerCase().replace(/[^a-zA-Z0-9]/g,'_');
-    var kind=width+'x'+height;
-    var folder='fingerprints/'+kind+'/'+category+'/';
-    var fingerprints=JSON.parse(FS.readFileSync(folder+font+'.json'));
-
-    return fingerprints;
+module.exports=function loadFingerprint(fontname, options = {}) {
+    var file=getFingerprintName(fontname, options);
+    return JSON.parse(FS.readFileSync(file.folder+file.name));
 }
 
 

@@ -6,7 +6,6 @@ module.exports=function appendFingerprints(lines, options={}) {
     } = options;
 
     for (var line of lines) {
-        var rois=line.rois;
         if (!line.fingerprints) line.fingerprints=[];
         for (var roi of line.rois) {
             var isNew=true;
@@ -21,4 +20,4 @@ module.exports=function appendFingerprints(lines, options={}) {
             }
         }
     }
-}
+};

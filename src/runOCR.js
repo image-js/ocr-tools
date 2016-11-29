@@ -12,6 +12,8 @@ module.exports=function runOCR(image, fontFingerprint, options) {
         fingerprintMinSimilarity=0.8 // minimal similarity to consider the result
     } = options;
     
+    console.log("RUN")
+    
     var lines=getLinesFromImage(image, {
             greyThreshold,
             roiMinSurface,

@@ -66,6 +66,7 @@ module.exports=function createFontFingerprint(options={}) {
     );
     return {
         valid,
-        results
+        results,
+        fontName: font
     };
 }

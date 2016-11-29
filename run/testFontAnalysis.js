@@ -20,15 +20,17 @@ var fingerprints=loadFingerprints({
 });
 
 
+console.log('Analysing',fingerprints.length,'different fonts');
+
 IJS.load('demo/ocrb.png').then(function(image) {
     var results=runFontAnalysis(image, fingerprints, options);
     
-    results=results.slice(0,2);
+    results=results.slice(0,5);
     
     for (var result of results) {
-        console.log(result.font, 
-            'Total similarity: ', result.totalSimilarity, 
-            'Total found: ', result.totalFound,
+        console.log('----------',result.font, '--',
+            'Total similarity: ', result.totalSimilarity, '-',
+            'Total found: ', result.totalFound, '-',
             'Total not found: ', result.totalNotFound);
         for (var line of result.lines) {
             console.log(line.text);
