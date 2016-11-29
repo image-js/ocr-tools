@@ -1,13 +1,13 @@
-var getFingerprintName = require('./getFingerprintName');
+'use strict';
 
-var FS=require('fs');
-var mkdirp=require('mkdirp');
+const getFingerprintName = require('./getFingerprintName');
 
-module.exports=function saveFingerprint(fontname, fingerprint, options={}) {
+const fs = require('fs');
+const mkdirp = require('mkdirp');
 
-    var file=getFingerprintName(fontname, options);
+module.exports = function saveFingerprint(fontname, fingerprint, options = {}) {
+    const file = getFingerprintName(fontname, options);
     mkdirp.sync(file.folder);
 
-    FS.writeFileSync(file.folder+file.name, JSON.stringify(fingerprint));
-}
-
+    fs.writeFileSync(file.folder + file.name, JSON.stringify(fingerprint));
+};

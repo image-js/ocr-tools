@@ -1,3 +1,5 @@
+'use strict';
+
 const bitsSetTable256 = [
     0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
     1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
@@ -18,16 +20,15 @@ const bitsSetTable256 = [
 ];
 
 // in our case we have 2 arrays of bytes
-module.exports=function tanimotoSimilarity(a,b) {
-    if (a.length != b.length) {
-        console.log(a,b);
-        throw Error('tanimotoSimilarity: not same length');
+module.exports = function tanimotoSimilarity(a, b) {
+    if (a.length !== b.length) {
+        throw Error(`tanimotoSimilarity: not same length: ${a}, ${b}`);
     }
-    var totalAnd=0;
-    var totalOr=0;
-    for (var i=0; i<a.length; i++) {
-        totalAnd+=bitsSetTable256[a[i] & b[i]];
-        totalOr+=bitsSetTable256[a[i] | b[i]];
+    let totalAnd = 0;
+    let totalOr = 0;
+    for (let i = 0; i < a.length; i++) {
+        totalAnd += bitsSetTable256[a[i] & b[i]];
+        totalOr += bitsSetTable256[a[i] | b[i]];
     }
     return totalAnd / totalOr;
-}
+};

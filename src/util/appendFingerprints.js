@@ -1,19 +1,21 @@
-var tanimotoSimilarity=require('./tanimotoSimilarity');
+'use strict';
 
-module.exports=function appendFingerprints(lines, options={}) {
-    var {
-        maxSimilarity=1  // over this value we don't add the fingerprint
+const tanimotoSimilarity = require('./tanimotoSimilarity');
+
+module.exports = function appendFingerprints(lines, options = {}) {
+    const {
+        maxSimilarity = 1  // over this value we don't add the fingerprint
     } = options;
 
-    for (var line of lines) {
-        if (!line.fingerprints) line.fingerprints=[];
-        for (var roi of line.rois) {
-            var isNew=true;
-            for (var fingerprint of line.fingerprints) {
-                if (tanimotoSimilarity(fingerprint, roi.data)>=maxSimilarity) {
-                    isNew=false;
+    for (const line of lines) {
+        if (!line.fingerprints) line.fingerprints = [];
+        for (const roi of line.rois) {
+            let isNew = true;
+            for (const fingerprint of line.fingerprints) {
+                if (tanimotoSimilarity(fingerprint, roi.data) >= maxSimilarity) {
+                    isNew = false;
                     break;
-                };
+                }
             }
             if (isNew) {
                 line.fingerprints.push(roi.data);
