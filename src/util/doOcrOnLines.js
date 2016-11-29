@@ -33,8 +33,30 @@ module.exports=function doOcrOnLines (lines, fontFingerprint, options={}) {
         totalNotFound+=line.notFound;
     }
 
+    // we will create a report
+    var report=[];
+    for (var line of lines) {
+        var rois=[];
+        for (var roi of line.rois) {
+            rois.push({
+                meanX: roi.meanX,
+                meanY: roi.meanY,
+                width: roi.width,
+                height: roi.height,
+            })
+        }
+        report.push({
+            text: line.text,
+            found: line.found,
+            notFound: line.notFound,
+            similarity: line.similarity,
+            rois: rois
+        })
+    }
+    
+    
     return {
-        lines,
+        lines: report,
         totalSimilarity,
         totalFound,
         totalNotFound

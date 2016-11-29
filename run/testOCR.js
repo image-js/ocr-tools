@@ -32,6 +32,12 @@ IJS.load('demo/ocrb.png').then(function(image) {
     console.log('Total similarity',result.totalSimilarity);
     console.log('Total found',result.totalFound);
     console.log('Total not found',result.totalNotFound);
+    
+    // for the first line we just show the roi
+    for (var roi of result.lines[1].rois) {
+        console.log(JSON.stringify(roi));
+    }
+    
 });
 
 
