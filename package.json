@@ -45,6 +45,7 @@
     "should": "^11.1.0"
   },
   "dependencies": {
+    "canvas": "^1.6.2",
     "font-manager": "^0.2.2",
     "image-js": "^0.8.2",
     "mkdirp": "^0.5.1"

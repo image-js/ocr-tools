@@ -1,7 +1,10 @@
-var runOCR=require('../src/runOCR');
-var IJS=require('image-js');
-var loadFingerprint=require('../src/util/loadFingerprint');
-var symbols=require('../src/util/symbolClasses').MRZ;  // SYMBOLS MRZ NUMBERS
+'use strict';
+
+
+const runOCR=require('../src/runOCR');
+const IJS=require('image-js');
+const loadFingerprint=require('../src/util/loadFingerprint');
+const symbols=require('../src/util/symbolClasses').MRZ;  // SYMBOLS MRZ NUMBERS
 
 var options={
     roiMinSurface: 30,
@@ -15,14 +18,16 @@ var options={
 };
 
 
+
+
 var fingerprints=loadFingerprint(options.font, {
     width: options.fingerprintHeight,
     height: options.fingerprintHeight,
     category: symbols.label
 });
 
-
-IJS.load('demo/ocrb.png').then(function(image) {
+IJS.load('private/3.png').then(function(image) {
+//IJS.load('demo/ocrb.png').then(function(image) {
     var result=runOCR(image, fingerprints, options);
 
     for (var line of result.lines) {
@@ -35,8 +40,8 @@ IJS.load('demo/ocrb.png').then(function(image) {
     // for the first line we just show the roi
     for (var roi of result.lines[1].rois) {
         console.log(JSON.stringify(roi));
-    }
-    
+}
+
 });
 
 
