@@ -3166,9 +3166,9 @@ ignore@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.2.0.tgz#8d88f03c3002a0ac52114db25d2c673b0bf1e435"
 
-image-js@^0.8.2:
+imageOptions-js@^0.8.2:
   version "0.8.2"
-  resolved "https://registry.yarnpkg.com/image-js/-/image-js-0.8.2.tgz#8b7fb11d6cf925aaff724c05cd9f657a1d5f550d"
+  resolved "https://registry.yarnpkg.com/imageOptions-js/-/imageOptions-js-0.8.2.tgz#8b7fb11d6cf925aaff724c05cd9f657a1d5f550d"
   dependencies:
     array-includes "^3.0.1"
     atob-lite "^1.0.0"
@@ -3178,7 +3178,7 @@ image-js@^0.8.2:
     fast-jpeg "^1.0.1"
     fast-png "^1.1.0"
     has-own "^1.0.0"
-    image-type "^2.1.0"
+    imageOptions-type "^2.1.0"
     is-array-type "^1.0.0"
     is-integer "^1.0.6"
     js-priority-queue "^0.1.5"
@@ -3193,9 +3193,9 @@ image-js@^0.8.2:
   optionalDependencies:
     canvas "^1.6.0"
 
-image-type@^2.1.0:
+imageOptions-type@^2.1.0:
   version "2.1.0"
-  resolved "https://registry.yarnpkg.com/image-type/-/image-type-2.1.0.tgz#976f2388176447dca0d23317c275ba4875a35d02"
+  resolved "https://registry.yarnpkg.com/imageOptions-type/-/imageOptions-type-2.1.0.tgz#976f2388176447dca0d23317c275ba4875a35d02"
   dependencies:
     file-type "^3.0.0"
     meow "^3.3.0"

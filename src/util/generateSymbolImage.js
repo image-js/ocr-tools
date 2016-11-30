@@ -3,24 +3,25 @@
 const IJS = require('image-js');
 const SYMBOLS = require('./symbolClasses').MRZ;
 
+
 function generateSymbolImage(options = {}) {
     let {
-        size = 24,
-        numberPerLine = 20,
-        rotation = 2,
+        fontSize = 24,
+        numberPerLine = 11,
+        allowedRotation = 2,
         font = 'Helvetica',
         backgroundColor = 255,
         symbols = SYMBOLS.symbols
     } = options;
 
 
-    const grid = Math.floor(size * 1.2);
-    font = size + 'px ' + font;
+    const grid = Math.floor(fontSize * 1.2);
+    font = fontSize + 'px ' + font;
 
     // default RGBA 8bits
     const image = new IJS(((numberPerLine + 2) * (grid)), (symbols.length + 2) * (grid));
 
-    // the image is now white
+    // the imageOptions is now white
     const data = image.data;
     for (let i = 0; i < data.length; i++) {
         if (i % 4 === 3) continue;
@@ -45,7 +46,7 @@ function generateSymbolImage(options = {}) {
             positions.push(position);
             labels.push(text);
             rotate.push(
-                2 * rotation * x / (numberPerLine - 1) - rotation
+                2 * allowedRotation * x / (numberPerLine - 1) - allowedRotation
             );
         }
     }

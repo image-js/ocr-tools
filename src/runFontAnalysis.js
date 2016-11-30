@@ -26,7 +26,7 @@ module.exports = function runFontAnalysis(image, fingerprints, options) {
 
     const results = [];
     for (const fontFingerprint of fingerprints) {
-        const result = doOcrOnLines(lines, fontFingerprint.fingerprint, {
+        const result = doOcrOnLines(lines, fontFingerprint.fingerprintOptions, {
             minSimilarity: fingerprintMinSimilarity
         });
         result.font = fontFingerprint.font;

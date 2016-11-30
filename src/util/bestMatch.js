@@ -11,7 +11,7 @@ module.exports = function bestMatch(targetFingerprint, lines) {
             const similarity = tanimotoSimilarity(fingerprint, targetFingerprint);
             if (similarity >= bestMatch.similarity) {
                 bestMatch.similarity = similarity;
-                bestMatch.fingerprint = fingerprint;
+                bestMatch.fingerprintOptions = fingerprint;
                 bestMatch.symbol = line.symbol;
             }
         }

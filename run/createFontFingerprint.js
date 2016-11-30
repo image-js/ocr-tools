@@ -9,67 +9,64 @@ var fonts=getInstalledRegularFonts();
 
 var fonts=['ocrb'];
 
+var greyThresholds=[0.1, 0.3, 0.5, 0.7, 0.9];
+
 var options={
-    roiMinSurface: 40,  // should allow to remove the '.' of i
-    roiPositive: true,
-    roiNegative: false,
-    symbols: symbols.symbols,
-    fontSize: 48,  // font size we use at the beginning
-    font: '',
-    numberPerLine: 11,
-    allowedRotation: 2,
-    greyThreshold: [0.1, 0.3, 0.5, 0.7, 0.9],
-    fingerprintWidth: 12,
-    fingerprintHeight: 12,
-    fingerprintMaxSimilarity:0.95 // we store all the different fingerprints
+    roiOptions: {
+        minSurface: 30,
+        positive: true,
+        negative: false,
+        greyThreshold: 0.5
+    },
+    fingerprintOptions: {
+        height: 12,
+        width: 12,
+        category: symbols.label,
+        maxSimilarity: 0.95, // we store all the different fontFingerprint
+        font: ''
+    },
+    imageOptions: {
+        symbols: symbols.symbols,
+        fontSize: 48, // font size we use at the beginning
+        allowedRotation: 2, // we may rotate the font
+        numberPerLine: 11 // better to have a odd number
+    }
 };
 
+
 for (var font of fonts) {
-    options.font=font;
+    options.fingerprintOptions.font=font;
 
-    // we can allow many greyThreshold in order to simulate 'bold'
-    var greyThresholds=options.greyThreshold;
-    if (! Array.isArray(greyThresholds)) {
-        greyThresholds=[greyThresholds]
-    };
-
-    var allFingerprints=[];
+    var fontFingerprintPerThreshold=[];
     for (var greyThreshold of greyThresholds) {
-        options.greyThreshold=greyThreshold;
-        var fingerprint=createFontFingerprint(options);
-
-        console.log(fingerprint.valid);
-        
-        if (fingerprint.valid) {
-            allFingerprints.push(fingerprint);
+        options.roiOptions.greyThreshold=greyThreshold;
+        var fontFingerprint=createFontFingerprint(options);
+        if (fontFingerprint.valid) {
+            fontFingerprintPerThreshold.push(fontFingerprint);
         }
     }
 
-    
-    
-    var results=joinFingerprints(allFingerprints, {maxSimilarity: options.fingerprintMaxSimilarity});
-    if (results.length>0) {
-        saveFingerprint(options.font, results, {
-            width:options.fingerprintWidth,
-            height:options.fingerprintHeight,
-            category:symbols.label
-        });
+    fontFingerprint=joinFontFingerprints(fontFingerprintPerThreshold, {
+        maxSimilarity: options.fingerprintOptions.maxSimilarity
+    });
+    if (fontFingerprint.length>0) {
+        saveFingerprint(fontFingerprint, options.fingerprintOptions);
     }
 }
 
 
 /*
-We have an array of fingerprints and we flatten it
+We have an array of fontFingerprint and we flatten it
  */
-function joinFingerprints(allFingerprints, options={}) {
-    var {
+function joinFontFingerprints(allFingerprints, options={}) {
+    const {
         maxSimilarity
     } = options;
     var symbols={};
     for (var oneFingerprint of allFingerprints) {
         var results=oneFingerprint.results;
         for (var result of results) {
-            // result is composed of a symbol and the related fingerprints
+            // result is composed of a symbol and the related fontFingerprint
             if (! symbols[result.symbol]) {
                 symbols[result.symbol]=[];
             }

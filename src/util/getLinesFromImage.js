@@ -3,33 +3,27 @@
 var groupRoisPerLine = require('./groupRoisPerLine');
 
 module.exports = function getLinesFromImage(image, options = {}) {
-    var {
-        greyThreshold,
-        roiMinSurface,
-        roiPositive,
-        roiNegative,
-        fingerprintWidth,
-        fingerprintHeight
+    const {
+        roiOptions,
+        fingerprintOptions
     } = options;
 
+    
     var grey = image.grey({allowGrey: true});
-    var mask = grey.mask({threshold: greyThreshold});
+    var mask = grey.mask({threshold: roiOptions.greyThreshold});
     mask.invert();
 
     var manager = image.getRoiManager();
     manager.fromMask(mask);
-    var rois = manager.getRois({
-        minSurface: roiMinSurface,
-        positive: roiPositive,
-        negative: roiNegative
-    });
+    var rois = manager.getRois(roiOptions);
 
     rois.forEach(function (roi) {
-        var small = roi.getMask().scale({width: fingerprintWidth, height: fingerprintHeight});
+        var small = roi.getMask().scale({
+            width: fingerprintOptions.width,
+            height: fingerprintOptions.height
+        });
         roi.data = Array.from(small.data);
     });
 
-    var lines = groupRoisPerLine(rois, {});
-    return lines;
+    return groupRoisPerLine(rois, roiOptions);
 };
-

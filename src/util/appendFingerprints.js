@@ -4,7 +4,7 @@ const tanimotoSimilarity = require('./tanimotoSimilarity');
 
 module.exports = function appendFingerprints(lines, options = {}) {
     const {
-        maxSimilarity = 1  // over this value we don't add the fingerprint
+        maxSimilarity = 1  // over this value we don't add the fingerprintOptions
     } = options;
 
     for (const line of lines) {
