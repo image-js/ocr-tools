@@ -16,7 +16,7 @@ module.exports = function createFontFingerprint(options = {}) {
         font = 'Helvetica',
         numberPerLine = 11, // better a odd number to allow straight characters during rotation
         greyThreshold = 0.5,
-        allowedRotation = 2, // we allow plus minus 2 degree of rotation
+        allowedRotation = 20, // we allow plus minus 2 degree of rotation
         fingerprintWidth = 8,
         fingerprintHeight = 8,
         fingerprintMaxSimilarity = 1 // we store all the different fingerprints

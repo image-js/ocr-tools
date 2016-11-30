@@ -14,7 +14,7 @@ var options={
     fingerprintWidth: 12,
     greyThreshold: 0.5,
     font: 'ocrb', // dejavusans ocrb iwona
-    fingerprintMinSimilarity:0.7 // minimal similarity to consider the result
+    fingerprintMinSimilarity:0.5 // minimal similarity to consider the result
 };
 
 
@@ -26,7 +26,7 @@ var fingerprints=loadFingerprint(options.font, {
     category: symbols.label
 });
 
-IJS.load('private/3.png').then(function(image) {
+IJS.load('private/1.png').then(function(image) {
 //IJS.load('demo/ocrb.png').then(function(image) {
     var result=runOCR(image, fingerprints, options);
 

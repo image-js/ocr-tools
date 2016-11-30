@@ -18,7 +18,7 @@ var options={
     font: '',
     numberPerLine: 11,
     allowedRotation: 2,
-    greyThreshold: [0.4, 0.5, 0.6, 0.7],
+    greyThreshold: [0.1, 0.3, 0.5, 0.7, 0.9],
     fingerprintWidth: 12,
     fingerprintHeight: 12,
     fingerprintMaxSimilarity:0.95 // we store all the different fingerprints
@@ -82,7 +82,6 @@ function joinFingerprints(allFingerprints, options={}) {
                     }
                 }
                 if (isNew) {
-                    console.log(result.symbol);
                     symbols[result.symbol].push(newFingerprint);
                 }
             }
@@ -95,9 +94,8 @@ function joinFingerprints(allFingerprints, options={}) {
             fingerprints: symbols[symbol]
         });
     }
-    for (var ab of toReturn) {
-        console.log(ab.symbol, ab.fingerprints.length);
-    }
+    
+    console.log(symbols['<'].length)
     
     return toReturn;
 }
