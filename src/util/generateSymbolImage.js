@@ -9,15 +9,16 @@ function generateSymbolImage(options = {}) {
         fontSize = 24,
         numberPerLine = 11,
         allowedRotation = 2,
-        font = 'Helvetica',
-        backgroundColor = 255,
+                backgroundColor = 255,
         symbols = SYMBOLS.symbols
-    } = options;
-
-
+    } = options.imageOptions;
+    let {
+        fontName = 'Helvetica'
+    } = options.fingerprintOptions;
+    
     const grid = Math.floor(fontSize * 1.2);
-    font = fontSize + 'px ' + font;
-
+    fontName = fontSize + 'px ' + fontName;
+    
     // default RGBA 8bits
     const image = new IJS(((numberPerLine + 2) * (grid)), (symbols.length + 2) * (grid));
 
@@ -30,7 +31,7 @@ function generateSymbolImage(options = {}) {
 
     const rotate = [];
     const paintOptions = {
-        font,
+        font: fontName,
         color: 'black',
         rotate: rotate
     };

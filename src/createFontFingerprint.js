@@ -7,17 +7,19 @@ const getLinesFromImage = require('./util/getLinesFromImage');
 
 module.exports = function createFontFingerprint(options = {}) {
     
-    const image = generateSymbolImage(options.imageOptions);
-    const lines = getLinesFromImage(image, options);
+    const image = generateSymbolImage(options);
+    image.save('png/'+options.fingerprintOptions.fontName+'.png');
     
+    const lines = getLinesFromImage(image, options);
 
+    const symbols = options.imageOptions.symbols;
 
     let valid = true;
 // we have the lines in the correct order, it should match directly the font
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
-        line.symbol = String.fromCharCode(options.symbols[i]);
-        if (line.rois.length !== options.numberPerLine) {
+        line.symbol = String.fromCharCode(symbols[i]);
+        if (line.rois.length !== options.imageOptions.numberPerLine) {
             console.log('Number of symbol on the line not correct for: ' + line.symbol);
             valid = false;
         }
@@ -26,8 +28,8 @@ module.exports = function createFontFingerprint(options = {}) {
         console.log('Number of lines not correct: ', lines.length, symbols.length);
         valid = false;
     }
-
-    appendFingerprints(lines, {maxSimilarity: fingerprintMaxSimilarity});
+    
+    appendFingerprints(lines, {maxSimilarity: options.fingerprintOptions.maxSimilarity});
 
     const results = lines.map(function (line) {
         return {
@@ -39,6 +41,6 @@ module.exports = function createFontFingerprint(options = {}) {
     return {
         valid,
         results,
-        fontName: font
+        fontName: options.fingerprintOptions.fontName
     };
 };

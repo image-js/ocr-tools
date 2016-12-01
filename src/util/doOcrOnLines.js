@@ -2,11 +2,11 @@
 
 const bestMatch = require('./bestMatch');
 
-module.exports = function doOcrOnLines(lines, fontFingerprint, options = {}) {
+module.exports = function doOcrOnLines(lines, fontData, options = {}) {
     var {
         minSimilarity = 0.8
     } = options;
-
+    
     // we try to analyse each line
     var totalSimilarity = 0;
     var totalFound = 0;
@@ -18,8 +18,8 @@ module.exports = function doOcrOnLines(lines, fontFingerprint, options = {}) {
         line.notFound = 0;
         var rois = line.rois;
         for (var roi of rois) {
-            var data = roi.data;
-            var match = bestMatch(data, fontFingerprint);
+            var roiData = roi.data;
+            var match = bestMatch(roiData, fontData);
             if (match.similarity > minSimilarity) {
                 line.text += match.symbol;
                 line.similarity += match.similarity;
@@ -42,7 +42,7 @@ module.exports = function doOcrOnLines(lines, fontFingerprint, options = {}) {
                 meanX: roi.meanX,
                 meanY: roi.meanY,
                 width: roi.width,
-                height: roi.height,
+                height: roi.height
             });
         }
         report.push({

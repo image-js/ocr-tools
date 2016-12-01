@@ -1,13 +1,14 @@
 const tanimotoSimilarity = require('../src/util/tanimotoSimilarity');
 var createFontFingerprint=require('../src/createFontFingerprint');
 var symbols=require('../src/util/symbolClasses').MRZ;  // SYMBOLS MRZ NUMBERS
-var saveFingerprint=require('../src/util/saveFingerprint');
+var saveFingerprint=require('../src/util/saveFontData');
 var getInstalledRegularFonts=require('../src/util/getInstalledRegularFonts');
 
 
 var fonts=getInstalledRegularFonts();
 
-var fonts=['ocrb'];
+fonts=fonts.filter(a=>a.toLowerCase().indexOf('ocr')>=0).slice(0,3);
+fonts=fonts.slice(0,1);
 
 var greyThresholds=[0.1, 0.3, 0.5, 0.7, 0.9];
 
@@ -23,22 +24,25 @@ var options={
         width: 12,
         category: symbols.label,
         maxSimilarity: 0.95, // we store all the different fontFingerprint
-        font: ''
+        fontName: ''
     },
     imageOptions: {
         symbols: symbols.symbols,
         fontSize: 48, // font size we use at the beginning
-        allowedRotation: 2, // we may rotate the font
+        allowedRotation: 5, // we may rotate the font
         numberPerLine: 11 // better to have a odd number
     }
 };
 
 
 for (var font of fonts) {
-    options.fingerprintOptions.font=font;
+    console.log('-----------------> Processing:',font);
+
+    options.fingerprintOptions.fontName=font;
 
     var fontFingerprintPerThreshold=[];
     for (var greyThreshold of greyThresholds) {
+        console.log('Grey threshold',greyThreshold);
         options.roiOptions.greyThreshold=greyThreshold;
         var fontFingerprint=createFontFingerprint(options);
         if (fontFingerprint.valid) {
@@ -91,8 +95,6 @@ function joinFontFingerprints(allFingerprints, options={}) {
             fingerprints: symbols[symbol]
         });
     }
-    
-    console.log(symbols['<'].length)
     
     return toReturn;
 }

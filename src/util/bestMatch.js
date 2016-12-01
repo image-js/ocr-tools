@@ -2,17 +2,18 @@
 
 const tanimotoSimilarity = require('./tanimotoSimilarity');
 
-module.exports = function bestMatch(targetFingerprint, lines) {
+module.exports = function bestMatch(targetFingerprint, fontData) {
     const bestMatch = {
         similarity: 0
     };
-    for (const line of lines) {
-        for (const fingerprint of line.fingerprints) {
+    
+    for (const symbolFingerprint of fontData.fingerprint) {
+        for (const fingerprint of symbolFingerprint.fingerprints) {
             const similarity = tanimotoSimilarity(fingerprint, targetFingerprint);
             if (similarity >= bestMatch.similarity) {
                 bestMatch.similarity = similarity;
                 bestMatch.fingerprintOptions = fingerprint;
-                bestMatch.symbol = line.symbol;
+                bestMatch.symbol = symbolFingerprint.symbol;
             }
         }
     }

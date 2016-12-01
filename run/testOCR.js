@@ -3,7 +3,7 @@
 
 const runOCR=require('../src/runOCR');
 const IJS=require('image-js');
-const loadFontFingerprint=require('../src/util/loadFontFingerprint');
+const loadFontFingerprint=require('../src/util/loadFontData');
 const symbols=require('../src/util/symbolClasses').MRZ;  // SYMBOLS MRZ NUMBERS
 
 var options={
@@ -16,8 +16,8 @@ var options={
     fingerprintOptions: {
         height: 12,
         width: 12,
-        minSimilarity: 0.5,
-        font: 'ocrb',
+        minSimilarity: 0.7,
+        fontName: 'ocrb',
         category: symbols.label
     },
 };
