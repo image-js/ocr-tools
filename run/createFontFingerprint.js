@@ -7,8 +7,8 @@ var getInstalledRegularFonts=require('../src/util/getInstalledRegularFonts');
 
 var fonts=getInstalledRegularFonts();
 
-fonts=fonts.filter(a=>a.toLowerCase().indexOf('ocr')>=0).slice(0,3);
-fonts=fonts.slice(0,1);
+//fonts=fonts.filter(a=>a.toLowerCase().indexOf('ocr')>=0).slice(0,3);
+//fonts=fonts.slice(0,1);
 
 var greyThresholds=[0.1, 0.3, 0.5, 0.7, 0.9];
 
