@@ -9,7 +9,7 @@ function generateSymbolImage(options = {}) {
         fontSize = 24,
         numberPerLine = 11,
         allowedRotation = 2,
-                backgroundColor = 255,
+        backgroundColor = 255,
         symbols = SYMBOLS.symbols
     } = options.imageOptions;
     let {
