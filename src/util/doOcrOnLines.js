@@ -4,7 +4,8 @@ const bestMatch = require('./bestMatch');
 
 module.exports = function doOcrOnLines(lines, fontData, options = {}) {
     var {
-        minSimilarity = 0.8
+        minSimilarity = 0.8,
+        maxNotFound = Number.MIN_SAFE_INTEGER
     } = options;
     
     // we try to analyse each line
@@ -36,24 +37,25 @@ module.exports = function doOcrOnLines(lines, fontData, options = {}) {
 
     const report = [];
     for (const line of lines) {
-        const rois = [];
-        for (const roi of line.rois) {
-            rois.push({
-                meanX: roi.meanX,
-                meanY: roi.meanY,
-                width: roi.width,
-                height: roi.height
+        if (line.notFound<maxNotFound) {
+            const rois = [];
+            for (const roi of line.rois) {
+                rois.push({
+                    meanX: roi.meanX,
+                    meanY: roi.meanY,
+                    width: roi.width,
+                    height: roi.height
+                });
+            }
+            report.push({
+                text: line.text,
+                found: line.found,
+                notFound: line.notFound,
+                similarity: line.similarity,
+                rois: rois
             });
         }
-        report.push({
-            text: line.text,
-            found: line.found,
-            notFound: line.notFound,
-            similarity: line.similarity,
-            rois: rois
-        });
     }
-
 
     return {
         lines: report,
