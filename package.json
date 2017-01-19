@@ -1,10 +1,9 @@
 {
   "name": "ocr-tools",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Various tools for OCR",
   "main": "./src/index.js",
   "files": [
-    "runkit.js",
     "src"
   ],
   "scripts": {
@@ -48,7 +47,7 @@
   "dependencies": {
     "canvas": "^1.6.2",
     "font-manager": "^0.2.2",
-    "image-js": "^0.8.2",
+    "image-js": "^0.9.5",
     "mkdirp": "^0.5.1"
   }
 }
