@@ -9,6 +9,9 @@ module.exports = function createFontFingerprint(options = {}) {
     
     const image = generateSymbolImage(options);
     image.save('png/'+options.fingerprintOptions.fontName+'_'+options.roiOptions.greyThreshold+'.jpg');
+
+    image.sobelFilter()/*.invert()*/.save('png/sobel-'+options.fingerprintOptions.fontName+'_'+options.roiOptions.greyThreshold+'.jpg')
+
     const lines = getLinesFromImage(image, options);
 
     const symbols = options.imageOptions.symbols;

@@ -4,9 +4,13 @@ var groupRoisPerLine = require('./groupRoisPerLine');
 
 module.exports = function getLinesFromImage(image, options = {}) {
     const {
-        roiOptions,
-        fingerprintOptions
+        roiOptions = {},
+        fingerprintOptions = {}
     } = options;
+
+    if (options.useSobel) {
+        image = image.sobelFilter().invert();
+    }
 
     var grey = image.grey({allowGrey: true});
 
@@ -22,8 +26,7 @@ module.exports = function getLinesFromImage(image, options = {}) {
     var manager = image.getRoiManager();
     manager.fromMask(mask);
     var rois = manager.getRois(roiOptions);
-    var painted=manager.paint(roiOptions);
-    painted.save('painted.png');
+
     rois.forEach(function (roi) {
         var small = roi.getMask().scale({
             width: fingerprintOptions.width,

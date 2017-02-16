@@ -1,3 +1,6 @@
+
+const mkdirp = require('mkdirp');
+
 const tanimotoSimilarity = require('../src/util/tanimotoSimilarity');
 var createFontFingerprint=require('../src/createFontFingerprint');
 var symbols=require('../src/util/symbolClasses').MRZ;  // SYMBOLS MRZ NUMBERS
@@ -13,6 +16,7 @@ var fonts=getInstalledRegularFonts();
 var greyThresholds=[0.3, 0.5, 0.7];
 
 var options={
+    useSobel: true,
     roiOptions: {
         minSurface: 30,
         positive: true,
@@ -34,8 +38,10 @@ var options={
     }
 };
 
+mkdirp.sync('png');
 
 for (var font of fonts) {
+    if (font !== 'OcrB Regular') continue;
     console.log('-----------------> Processing:',font);
 
     options.fingerprintOptions.fontName=font;

@@ -52,7 +52,7 @@ module.exports = function doOcrOnLines(lines, fontData, options = {}) {
                 found: line.found,
                 notFound: line.notFound,
                 similarity: line.similarity,
-                rois: rois
+                rois: line.rois
             });
         }
     }
