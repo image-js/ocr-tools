@@ -47,8 +47,10 @@
   "dependencies": {
     "canvas": "^1.6.2",
     "font-manager": "^0.2.2",
-    "image-js": "^0.9.5",
+    "image-js": "^0.14.1",
     "mkdirp": "^0.5.1",
-    "mrz": "^1.0.0"
+    "ml-array-mean": "^1.0.1",
+    "mrz": "^1.0.0",
+    "tableify": "^1.1.0"
   }
 }

@@ -44,11 +44,3 @@ Image.load('demo/ocrb.png').then(function(image) {
     //}
 
 });
-
-
-
-
-
-
-
-

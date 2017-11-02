@@ -1,26 +1,25 @@
 /**
  * You need node 8.5.0 to run this script
  */
-
 'use strict';
 
 var rootDir = '..'; // current directory where images will be saved
 const readDirectory = rootDir + '/output/'; // images directory to be processed
 
 const codes = {
-    "CORRECT": {
+    CORRECT: {
         code: 0,
         save: '/correct/'
     },
-    "MRZ_PARSE_ERROR":  { // Invalid MRZ given by the parser (data that maybe doesn't have sense)
+    MRZ_PARSE_ERROR: { // Invalid MRZ given by the parser (data that maybe doesn't have sense)
         code: 1,
         save: '/notParse/'
     },
-    "NO_DETECTED_TEXT": { // different sizes of each MRZ line
+    NO_DETECTED_TEXT: { // different sizes of each MRZ line
         code: 2,
         save: '/notDetected/'
     },
-    "NOT_FOUND_LETTERS": { // Undetectable letters by runMRZ method
+    NOT_FOUND_LETTERS: { // Undetectable letters by runMRZ method
         code: 3,
         save: '/notFound/'
     }
@@ -28,21 +27,26 @@ const codes = {
 
 var codeNames = Object.keys(codes);
 
-const runMRZ=require('../src/runMRZ');
-const IJS = require('image-js').default;
-const loadFontFingerprint=require('../src/util/loadFontData');
-const symbols=require('../src/util/symbolClasses').MRZ;  // SYMBOLS MRZ NUMBERS
+const runMRZ = require('../src/runMRZ');
+const IJS = require('image-js').Image;
+const loadFontFingerprint = require('../src/util/loadFontData');
+const symbols = require('../src/util/symbolClasses').MRZ;  // SYMBOLS MRZ NUMBERS
 const fs = require('fs');
 const parse = require('mrz').parse;
+const tableify = require('tableify');
 
-var options={
+var table = [];
+
+var options = {
     roiOptions: {
-        minSurface: 20,
+        minSurface: 500,
         positive: true,
         negative: false,
         maxWidth: 50,
-        greyThreshold: 0.5,
-        level: true // we recalculate the greyThreshold based
+        //greyThreshold: 0.5,
+        algorithm: 'minimum',
+        randomColors: true
+        //level: true // we recalculate the greyThreshold based
                     // on min / max values of the grey image
     },
     fingerprintOptions: {
@@ -54,62 +58,137 @@ var options={
     },
 };
 
-function saveImage(img, code, filename) {
+function saveImage(images, code, filename, errorInformation = '') {
+    var {
+        img,
+        mask,
+        painted
+    } = images;
     var saveDir = rootDir + code.save;
 
-    if(!fs.existsSync(saveDir)) {
+    if (!fs.existsSync(saveDir)) {
         fs.mkdirSync(saveDir);
     }
     fs.copyFileSync(readDirectory + filename, saveDir + filename);
+
+    let maskFilename = filename.replace(/\.[A-Za-z]*$/, '_mask.bmp');
+    let paintedFilename = filename.replace(/\.[A-Za-z]*$/, '_painted.png');
+    
+    mask.save(saveDir + maskFilename, {
+        useCanvas: false,
+        format: 'bmp'
+    });
+    painted.save(saveDir + paintedFilename, {
+        useCanvas: false,
+        format: 'png'
+    });
     //img.save(rootDir + code.save + filename);
+    table.push({
+        images: [
+            `<img src="./${code.save + filename}" width="500" height="100">`,
+            `<img src="./${code.save + maskFilename}" width="500" height="100">`,
+            `<img src="./${code.save + paintedFilename}" width="500" height="100">`
+        ],
+        'Error Information': errorInformation,
+        'Code Error': `<font color=${code.code === 0 ? 'green' : 'red'}> ${codeNames[code.code]} </font>`,
+        filename: filename
+    });
     return code.code;
+}
+
+var notFound = (line) => line.notFound;
+var getTextReplace = (line) => line.text.replace(/</g, '&lt;');
+var getTextNoReplace = (line) => line.text;
+
+function getTextAndSize(ocrResult) {
+    let result = ocrResult.lines.map(getTextReplace);
+    let notFoundSizes = ocrResult.lines.map(notFound);
+    let output = [];
+    for (let i = 0; i < result.length; i++) {
+        var ocrElement = result[i];
+        var notFoundSize = notFoundSizes[i];
+        var toSave = {
+            line: ocrElement,
+            'size (not found)': `${ocrResult.lines[i].text.length}(${notFoundSize})`
+        };
+        output.push(toSave);
+        //var str = `size(not found): ${ocrElement.length}(${notFoundSize})`;
+    }
+    return output;
 }
 
 function isMRZCorrect(image, filename) {
     // console.log('Image size: ',image.width,image.height),
     //console.time('full OCR process');
-    var result=runMRZ(image, fontFingerprint, options);
+    try {
+        var {
+            ocrResult,
+            mask,
+            painted,
+            averageSurface
+        } = runMRZ(image, fontFingerprint, options);
+    } catch (e) {
+        console.log(e);
+        throw e;
+    }
+    
     //console.timeEnd('full OCR process');
 
-    var text = [];
-    var size = undefined;
-    for (var line of result.lines) {
-        text.push(line.text);
-        // console.log(line.text, line.similarity, ' Found:',line.found, ' Not found:',line.notFound);
-        if(line.notFound) {
-            return saveImage(image, codes.NOT_FOUND_LETTERS, filename);
+    averageSurface = averageSurface.toFixed(2);
+    var images = {
+        img: image,
+        mask,
+        painted
+    };
+
+    var text = ocrResult.lines.map(getTextNoReplace).join('\n');
+    var size;
+    for (var line of ocrResult.lines) {
+        if (line.notFound) {
+            return saveImage(images, codes.NOT_FOUND_LETTERS, filename, {
+                lines: getTextAndSize(ocrResult),
+                'Avg SA': averageSurface
+            });
         }
-        
-        if(size && size !== line.found) {
-            return saveImage(image, codes.NO_DETECTED_TEXT, filename);
+
+        /*if (size && size !== line.found) {
+            return saveImage(images, codes.NO_DETECTED_TEXT, filename, {
+                lines: getTextAndSize(ocrResult),
+                'Avg SA': averageSurface
+            });
         } else {
             size = line.found;
-        }
+        }*/
     }
-
-    text = text.join('\n');
     /*console.log('Total similarity',result.totalSimilarity);
     console.log('Total found',result.totalFound);
     console.log('Total not found',result.totalNotFound);*/
-    
+
     // for the first line we just show the roiOptions
     /*for (var roi of result.lines[1].rois) {
         console.log(JSON.stringify(roi));
     }*/
     // console.log(`Parsing ${text}`);
-    if(!parse(text).isValid) {
-        return saveImage(image, codes.MRZ_PARSE_ERROR, filename);
+    var data = parse(text);
+    if (!data.isValid) {
+        return saveImage(images, codes.MRZ_PARSE_ERROR, filename, {
+            lines: getTextAndSize(ocrResult),
+            'errors': data.error,
+            'Avg SA': averageSurface
+        });
     }
 
-    return saveImage(image, codes.CORRECT, filename);
+    return saveImage(images, codes.CORRECT, filename, {
+        'Avg SA': averageSurface
+    });
 }
 
 var files = fs.readdirSync(readDirectory);
 
-var fontFingerprint=loadFontFingerprint(options.fingerprintOptions);
+var fontFingerprint = loadFontFingerprint(options.fingerprintOptions);
 var promises = files.map(elem => IJS.load(readDirectory + elem));
 
-Promise.all(promises).then( function (elems) {
+Promise.all(promises).then(function (elems) {
     var counters = new Array(Object.keys(codes).length).fill(0);
 
     //var output = elems.map(elem => isMRZCorrect(elem));
@@ -118,18 +197,50 @@ Promise.all(promises).then( function (elems) {
         // console.log(`Processing file: ${files[i]}`);
         var code = isMRZCorrect(elem, files[i]);
         counters[code]++;
-        
-        if(code === codes.CORRECT) {
+
+        if (code === codes.CORRECT) {
             console.log(`file: ${files[i]} is correct!`);
         }
     }
 
-    for(i = 0; i < codeNames.length; ++i) {
+    var final = [];
+    for (i = 0; i < codeNames.length; ++i) {
         var currentCode = codeNames[i];
         console.log(`Elements with code ${currentCode}: ${counters[codes[currentCode].code]}`);
+        final.push([currentCode, counters[codes[currentCode].code]]);
     }
-
     console.log(`total elements: ${elems.length}`);
+    final.push(['total', elems.length]);
+
+    table = {
+        table: table,
+        count: final
+    };
+
+    fs.writeFileSync(`${rootDir}/table.html`,
+    `
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <style>
+        html *
+        {
+            font-family: "Courier New", Courier, monospace;
+        }
+        table {
+            border-collapse: collapse;
+        }
+    
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+    </head>
+    <body>
+    ${tableify(table)}
+    </body>
+    </html>
+    `);
 });
 
 /*IJS.load(readDirectory + files[0]).then(function(image) {
@@ -147,18 +258,11 @@ Promise.all(promises).then( function (elems) {
     console.log('Total similarity',result.totalSimilarity);
     console.log('Total found',result.totalFound);
     console.log('Total not found',result.totalNotFound);
-    
+
     // for the first line we just show the roiOptions
     for (var roi of result.lines[1].rois) {
         console.log(JSON.stringify(roi));
     }
 
 });*/
-
-
-
-
-
-
-
 
