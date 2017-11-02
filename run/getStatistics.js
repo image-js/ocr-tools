@@ -39,7 +39,7 @@ var table = [];
 
 var options = {
     roiOptions: {
-        minSurface: 500,
+        minSurface: 300,
         positive: true,
         negative: false,
         maxWidth: 50,
@@ -66,6 +66,8 @@ function saveImage(images, code, filename, errorInformation = '') {
     } = images;
     var saveDir = rootDir + code.save;
 
+    var grey = img.grey({allowGrey: true});
+
     if (!fs.existsSync(saveDir)) {
         fs.mkdirSync(saveDir);
     }
@@ -82,6 +84,7 @@ function saveImage(images, code, filename, errorInformation = '') {
         useCanvas: false,
         format: 'png'
     });
+    
     //img.save(rootDir + code.save + filename);
     table.push({
         images: [
@@ -91,7 +94,8 @@ function saveImage(images, code, filename, errorInformation = '') {
         ],
         'Error Information': errorInformation,
         'Code Error': `<font color=${code.code === 0 ? 'green' : 'red'}> ${codeNames[code.code]} </font>`,
-        filename: filename
+        // filename: filename,
+        'Histogram': `<span class='histogram'>${grey.histogram.join(',')}</span>`
     });
     return code.code;
 }
@@ -227,42 +231,27 @@ Promise.all(promises).then(function (elems) {
         {
             font-family: "Courier New", Courier, monospace;
         }
-        table {
-            border-collapse: collapse;
-        }
-    
-        table, th, td {
-            border: 1px solid black;
-        }
     </style>
     </head>
     <body>
     ${tableify(table)}
     </body>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"
+    integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+    crossorigin="anonymous"></script>
+    <script src="https://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        /** This code runs when everything has been loaded on the page */
+        /* Inline sparklines take their values from the contents of the tag */
+        $('.histogram').sparkline('html', {
+            type: 'line',
+            width: 400,
+            height: 100
+        }); 
+    });
+    </script>
     </html>
     `);
 });
-
-/*IJS.load(readDirectory + files[0]).then(function(image) {
-
-    console.log('Image size: ',image.width,image.height),
-    console.time('full OCR process');
-
-    var result=runMRZ(image, fontFingerprint, options);
-
-    console.timeEnd('full OCR process');
-
-    for (var line of result.lines) {
-        console.log(line.text, line.similarity, ' Found:', line.found, ' Not found:',line.notFound);
-    }
-    console.log('Total similarity',result.totalSimilarity);
-    console.log('Total found',result.totalFound);
-    console.log('Total not found',result.totalNotFound);
-
-    // for the first line we just show the roiOptions
-    for (var roi of result.lines[1].rois) {
-        console.log(JSON.stringify(roi));
-    }
-
-});*/
 

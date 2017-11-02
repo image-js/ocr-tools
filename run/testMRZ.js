@@ -32,7 +32,7 @@ IJS.load('../output/VD_180287_180287-P001_verso_1494595880_documentJpg.png').the
     console.log('Image size: ',image.width,image.height),
     console.time('full OCR process');
 
-    var result=runMRZ(image, fontFingerprint, options);
+    var result=runMRZ(image, fontFingerprint, options).ocrResult;
 
     console.timeEnd('full OCR process');
 
