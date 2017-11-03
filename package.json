@@ -50,6 +50,7 @@
     "image-js": "^0.14.1",
     "mkdirp": "^0.5.1",
     "ml-array-mean": "^1.0.1",
+    "ml-distance": "^2.1.1",
     "mrz": "^1.0.0",
     "tableify": "^1.1.0"
   }
