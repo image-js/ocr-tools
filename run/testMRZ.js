@@ -2,7 +2,7 @@
 
 
 const runMRZ=require('../src/runMRZ');
-const IJS=require('image-js');
+const IJS = require('image-js').default;
 const loadFontFingerprint=require('../src/util/loadFontData');
 const symbols=require('../src/util/symbolClasses').MRZ;  // SYMBOLS MRZ NUMBERS
 
@@ -27,13 +27,12 @@ var options={
 
 
 var fontFingerprint=loadFontFingerprint(options.fingerprintOptions);
-
-IJS.load('private/id6.png').then(function(image) {
+IJS.load('../output/VD_180287_180287-P001_verso_1494595880_documentJpg.png').then(function(image) {
 
     console.log('Image size: ',image.width,image.height),
     console.time('full OCR process');
 
-    var result=runMRZ(image, fontFingerprint, options);
+    var result=runMRZ(image, fontFingerprint, options).ocrResult;
 
     console.timeEnd('full OCR process');
 
