@@ -6,40 +6,40 @@ const appendFingerprints = require('../src/util/appendFingerprints');
 const getLinesFromImage = require('./util/getLinesFromImage');
 
 module.exports = function createFontFingerprint(options = {}) {
-    
-    const image = generateSymbolImage(options);
-    image.save('png/'+options.fingerprintOptions.fontName+'_'+options.roiOptions.greyThreshold+'.jpg');
-    const lines = getLinesFromImage(image, options);
 
-    const symbols = options.imageOptions.symbols;
+  const image = generateSymbolImage(options);
+  image.save(`png/${options.fingerprintOptions.fontName}_${options.roiOptions.greyThreshold}.jpg`);
+  const lines = getLinesFromImage(image, options);
 
-    let valid = true;
-// we have the lines in the correct order, it should match directly the font
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        line.symbol = String.fromCharCode(symbols[i]);
-        if (line.rois.length !== options.imageOptions.numberPerLine) {
-            console.log('Number of symbol on the line not correct for: ' + line.symbol);
-            valid = false;
-        }
+  const symbols = options.imageOptions.symbols;
+
+  let valid = true;
+  // we have the lines in the correct order, it should match directly the font
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    line.symbol = String.fromCharCode(symbols[i]);
+    if (line.rois.length !== options.imageOptions.numberPerLine) {
+      console.log(`Number of symbol on the line not correct for: ${line.symbol}`);
+      valid = false;
     }
-    if (lines.length !== symbols.length) {
-        console.log('Number of lines not correct: ', lines.length, symbols.length);
-        valid = false;
-    }
-    
-    appendFingerprints(lines, {maxSimilarity: options.fingerprintOptions.maxSimilarity});
+  }
+  if (lines.length !== symbols.length) {
+    console.log('Number of lines not correct: ', lines.length, symbols.length);
+    valid = false;
+  }
 
-    const results = lines.map(function (line) {
-        return {
-            symbol: line.symbol,
-            fingerprints: line.fingerprints
-        };
-    });
+  appendFingerprints(lines, { maxSimilarity: options.fingerprintOptions.maxSimilarity });
 
+  const results = lines.map(function (line) {
     return {
-        valid,
-        results,
-        fontName: options.fingerprintOptions.fontName
+      symbol: line.symbol,
+      fingerprints: line.fingerprints
     };
+  });
+
+  return {
+    valid,
+    results,
+    fontName: options.fingerprintOptions.fontName
+  };
 };

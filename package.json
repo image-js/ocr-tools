@@ -7,51 +7,40 @@
     "src"
   ],
   "scripts": {
-    "eslint": "eslint src test",
+    "eslint": "eslint src",
     "eslint-fix": "npm run eslint -- --fix",
-    "test": "npm run test-mocha && npm run eslint",
-    "test-cov": "istanbul cover node_modules/.bin/_mocha -- --require should --reporter dot --recursive",
-    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --require should --reporter dot --recursive",
-    "test-mocha": "mocha --require should --reporter mocha-better-spec-reporter",
-    "test-rotation": "node --harmony-async-await run/testRotation.js",
-    "build": "cheminfo build"
+    "test": "npm run test-only && npm run eslint",
+    "test-cov": "npm run test-only -- --coverage",
+    "test-travis": "npm run test-cov && npm run eslint",
+    "test-only": "jest"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/cheminfo-js/ocr.git"
   },
   "keywords": [
-    "machine",
-    "learning",
-    "data",
-    "mining",
-    "datamining"
+    "ocr",
+    "image",
+    "optical",
+    "character",
+    "recognition"
   ],
-  "author": "lpatiny <luc@patiny.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cheminfo-js/ocr/issues"
+    "url": "https://github.com/cheminfo-js/ocr-tools/issues"
   },
-  "runkitExampleFilename": "./runkit.js",
-  "homepage": "https://github.com/cheminfo-js/ocr#readme",
+  "homepage": "https://github.com/cheminfo-js/ocr-tools#readme",
   "devDependencies": {
-    "cheminfo-tools": "^1.5.0",
-    "eslint": "^3.4.0",
-    "eslint-config-cheminfo": "^1.2.0",
-    "eslint-plugin-no-only-tests": "^1.1.0",
-    "istanbul": "^0.4.4",
-    "mocha": "^3.1.2",
-    "mocha-better-spec-reporter": "^3.0.2",
-    "should": "^11.1.0"
+    "eslint": "^4.16.0",
+    "eslint-config-cheminfo": "^1.14.1",
+    "eslint-plugin-jest": "^21.7.0",
+    "image-js": "^0.16.1",
+    "jest": "^22.1.4",
+    "tableify": "^1.1.0"
   },
   "dependencies": {
-    "canvas": "^1.6.2",
-    "font-manager": "^0.2.2",
-    "image-js": "^0.14.1",
     "mkdirp": "^0.5.1",
     "ml-array-mean": "^1.0.1",
-    "ml-distance": "^2.1.1",
-    "mrz": "^1.0.0",
-    "tableify": "^1.1.0"
+    "ml-distance": "^2.1.1"
   }
 }
