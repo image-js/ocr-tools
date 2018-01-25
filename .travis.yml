@@ -1,8 +1,6 @@
 language: node_js
 node_js:
-  - node
-  - lts/boron #v6
-  - lts/argon #v4
-sudo: false
+  - 9
+  - 8
 script: "npm run test-travis "
 after_script: "npm install coveralls@2 && cat ./coverage/lcov.info | coveralls"
