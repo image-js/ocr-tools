@@ -1,10 +1,9 @@
 'use strict';
 
-var IJS = require('image-js');
+var IJS = require('image-js').Image;
 var loadFingerprints = require('../src/util/loadAllFontData');
 var runFontAnalysis = require('../src/runFontAnalysis');
 var symbols = require('../src/util/symbolClasses').MRZ; // SYMBOLS MRZ NUMBERS
-
 
 var options = {
   roiOptions: {
@@ -28,25 +27,28 @@ var options = {
   }
 };
 
-
 var allFontFingerprints = loadFingerprints(options.fingerprintOptions);
 
 console.log('Analysing', allFontFingerprints.length, 'different fonts');
 
-IJS.load('demo/ocrb.png').then(function (image) {
+IJS.load('demo/test.png').then(function (image) {
   var results = runFontAnalysis(image, allFontFingerprints, options);
 
   results = results.slice(0, 5);
 
   for (var result of results) {
-    console.log('----------', result.fontName, '--',
-      'Total similarity: ', result.totalSimilarity, '-',
-      'Total found: ', result.totalFound, '-',
-      'Total not found: ', result.totalNotFound);
-    for (var line of result.lines) {
-      console.log(line.text);
-    }
-
+    console.log(
+      '----------',
+      result.fontName,
+      '--',
+      'Total similarity: ',
+      result.totalSimilarity / result.totalFound,
+      '-',
+      'Total found: ',
+      result.totalFound,
+      '-',
+      'Total not found: ',
+      result.totalNotFound
+    );
   }
 });
-

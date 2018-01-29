@@ -4,10 +4,7 @@ var groupRoisPerLine = require('./groupRoisPerLine');
 const mean = require('ml-array-mean');
 
 module.exports = function getLinesFromImage(image, options = {}) {
-  const {
-    roiOptions,
-    fingerprintOptions
-  } = options;
+  const { roiOptions, fingerprintOptions } = options;
 
   var grey = image.grey({ allowGrey: true });
 
@@ -21,7 +18,9 @@ module.exports = function getLinesFromImage(image, options = {}) {
     let greyThreshold = roiOptions.greyThreshold;
     if (roiOptions.level) {
       // we simulate the level by changing the threshold
-      greyThreshold = (grey.min[0] + (grey.max[0] - grey.min[0]) * greyThreshold) / grey.maxValue;
+      greyThreshold =
+        (grey.min[0] + (grey.max[0] - grey.min[0]) * greyThreshold) /
+        grey.maxValue;
     }
     maskOptions.threshold = greyThreshold;
   } else {
@@ -32,6 +31,7 @@ module.exports = function getLinesFromImage(image, options = {}) {
 
   var manager = image.getRoiManager();
   manager.fromMask(mask);
+  // TODO: change this options until it works
   var rois = manager.getRois(roiOptions);
   var averageSurface = mean(rois.map((elem) => elem.surface));
   var painted = manager.paint(roiOptions);
@@ -52,12 +52,10 @@ module.exports = function getLinesFromImage(image, options = {}) {
     roi.mbrSurface = roi.mbrWidth * roi.mbrHeight;
     roi.fillingFactor = roi.surface / roi.mbrSurface;
 
-    mbr = mbr.map((point) =>
-      [
-        point[0] + mask.position[0],
-        point[1] + mask.position[1]
-      ]
-    );
+    mbr = mbr.map((point) => [
+      point[0] + mask.position[0],
+      point[1] + mask.position[1]
+    ]);
     painted.paintPolyline(mbr, { color: [255, 0, 0] });
   });
 

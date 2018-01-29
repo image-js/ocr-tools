@@ -1,6 +1,5 @@
 'use strict';
 
-
 const runMRZ = require('../src/runMRZ');
 const IJS = require('image-js').default;
 const loadFontFingerprint = require('../src/util/loadFontData');
@@ -22,14 +21,12 @@ var options = {
     minSimilarity: 0.7,
     fontName: 'ocrb',
     category: symbols.label
-  },
+  }
 };
 
-
 var fontFingerprint = loadFontFingerprint(options.fingerprintOptions);
-IJS.load('../output/VD_180287_180287-P001_verso_1494595880_documentJpg.png').then(function (image) {
-
-  console.log('Image size: ', image.width, image.height);
+IJS.load('../output/image.png').then(function (image) {
+  console.log('Image size: ', image.width, image.height),
   console.time('full OCR process');
 
   var result = runMRZ(image, fontFingerprint, options).ocrResult;
@@ -37,7 +34,14 @@ IJS.load('../output/VD_180287_180287-P001_verso_1494595880_documentJpg.png').the
   console.timeEnd('full OCR process');
 
   for (var line of result.lines) {
-    console.log(line.text, line.similarity, ' Found:', line.found, ' Not found:', line.notFound);
+    console.log(
+      line.text,
+      line.similarity,
+      ' Found:',
+      line.found,
+      ' Not found:',
+      line.notFound
+    );
   }
   console.log('Total similarity', result.totalSimilarity);
   console.log('Total found', result.totalFound);
@@ -47,6 +51,4 @@ IJS.load('../output/VD_180287_180287-P001_verso_1494595880_documentJpg.png').the
   for (var roi of result.lines[1].rois) {
     console.log(JSON.stringify(roi));
   }
-
 });
-

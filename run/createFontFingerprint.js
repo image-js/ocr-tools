@@ -6,8 +6,7 @@ var symbols = require('../src/util/symbolClasses').MRZ; // SYMBOLS MRZ NUMBERS
 var saveFingerprint = require('../src/util/saveFontData');
 var getInstalledRegularFonts = require('../src/util/getInstalledRegularFonts');
 
-
-var fonts = getInstalledRegularFonts();
+var fonts = getInstalledRegularFonts(); //.filter(elem => elem === 'OCRB-Regular');
 
 //fonts=fonts.filter(a=>a.toLowerCase().indexOf('ocr')>=0).slice(0,3);
 //fonts=fonts.slice(0,1);
@@ -22,8 +21,8 @@ var options = {
     greyThreshold: 0.5
   },
   fingerprintOptions: {
-    height: 12,
-    width: 12,
+    height: 64,
+    width: 45,
     category: symbols.label,
     maxSimilarity: 0.95, // we store all the different fontFingerprint
     fontName: ''
@@ -35,7 +34,6 @@ var options = {
     numberPerLine: 11 // better to have a odd number
   }
 };
-
 
 for (var font of fonts) {
   console.log('-----------------> Processing:', font);
@@ -60,14 +58,11 @@ for (var font of fonts) {
   }
 }
 
-
 /*
 We have an array of fontFingerprint and we flatten it
  */
 function joinFontFingerprints(allFingerprints, options = {}) {
-  const {
-    maxSimilarity
-  } = options;
+  const { maxSimilarity } = options;
   var symbols = {};
   for (var oneFingerprint of allFingerprints) {
     var results = oneFingerprint.results;
@@ -79,7 +74,10 @@ function joinFontFingerprints(allFingerprints, options = {}) {
       for (const newFingerprint of result.fingerprints) {
         var isNew = true;
         for (const existingFingerprint of symbols[result.symbol]) {
-          if (tanimotoSimilarity(existingFingerprint, newFingerprint) >= maxSimilarity) {
+          if (
+            tanimotoSimilarity(existingFingerprint, newFingerprint) >=
+            maxSimilarity
+          ) {
             isNew = false;
             break;
           }

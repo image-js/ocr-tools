@@ -1,14 +1,16 @@
 'use strict';
 
 const bestMatch = require('./bestMatch');
+const ambiguitySolver = require('./ambiguitySolver');
 
 module.exports = function doOcrOnLines(lines, fontData, options = {}) {
   var {
     minSimilarity = 0.8,
-    maxNotFound = Number.MIN_SAFE_INTEGER
+    maxNotFound = Number.MIN_SAFE_INTEGER,
+    ambiguity = false
   } = options;
 
-    // we try to analyse each line
+  // we try to analyse each line
   var totalSimilarity = 0;
   var totalFound = 0;
   var totalNotFound = 0;
@@ -19,6 +21,7 @@ module.exports = function doOcrOnLines(lines, fontData, options = {}) {
     line.notFound = 0;
     var rois = line.rois;
     for (var roi of rois) {
+      // TODO: get roi.mask() for matrix
       var roiData = roi.data;
       var match = bestMatch(roiData, fontData);
       if (match.similarity > minSimilarity) {
@@ -57,12 +60,14 @@ module.exports = function doOcrOnLines(lines, fontData, options = {}) {
     }
   }
 
+  if (ambiguity) {
+    ambiguitySolver(report);
+  }
+
   return {
     lines: report,
     totalSimilarity,
     totalFound,
     totalNotFound
   };
-
 };
-

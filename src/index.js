@@ -1,4 +1,8 @@
 'use strict';
 
-exports.groupRoisPerLine = require('./util/groupRoisPerLine');
-exports.runFontAnalysis = require('./runFontAnalysis');
+module.exports = {
+  getLinesFromImage: require('./util/getLinesFromImage'),
+  doOcrOnLines: require('./util/doOcrOnLines'),
+  groupRoisPerLine: require('./util/groupRoisPerLine'),
+  runFontAnalysis: require('./runFontAnalysis')
+};
