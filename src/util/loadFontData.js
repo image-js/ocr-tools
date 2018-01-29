@@ -1,10 +1,11 @@
 'use strict';
 
-var getFontDataFilename = require('./getFontDataFilename');
+const fs = require('fs');
+const { join } = require('path');
 
-var fs = require('fs');
+var getFontDataFilename = require('./getFontDataFilename');
 
 module.exports = function loadFontData(options = {}) {
   var file = getFontDataFilename(options);
-  return JSON.parse(fs.readFileSync(file.folder + file.name));
+  return JSON.parse(fs.readFileSync(join(file.folder, file.name)));
 };

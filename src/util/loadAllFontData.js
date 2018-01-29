@@ -1,8 +1,9 @@
 'use strict';
 
-var getFontDataFilename = require('./getFontDataFilename');
+const fs = require('fs');
+const { join } = require('path');
 
-var fs = require('fs');
+var getFontDataFilename = require('./getFontDataFilename');
 
 module.exports = function loadAllFontData(options = {}) {
   var fingerprints = [];
@@ -12,7 +13,7 @@ module.exports = function loadAllFontData(options = {}) {
   var dir = fs.readdirSync(folder);
 
   for (var file of dir) {
-    var fontData = JSON.parse(fs.readFileSync(folder + file));
+    var fontData = JSON.parse(fs.readFileSync(join(folder, file)));
     fontData.filneme = folder + file;
     fingerprints.push(fontData);
   }

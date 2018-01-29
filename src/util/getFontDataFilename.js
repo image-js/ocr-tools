@@ -1,11 +1,14 @@
 'use strict';
 
+const { join } = require('path');
+
 module.exports = function getFingerprintsName(options = {}) {
   var {
     width = 8,
     height = 8,
     category = '',
-    fontName = 'helvetica'
+    fontName = 'helvetica',
+    baseDir = 'fontFingerprint'
   } = options;
 
   fontName = fontName.toLowerCase().replace(/[^a-zA-Z0-9]/g, '_');
@@ -13,7 +16,7 @@ module.exports = function getFingerprintsName(options = {}) {
 
   const kind = `${width}x${height}`;
   return {
-    folder: `fontFingerprint/${kind}/${category}/`,
+    folder: join(baseDir, kind, category),
     name: `${fontName}.json`
   };
 };
