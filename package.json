@@ -12,7 +12,7 @@
     "test": "npm run test-only && npm run eslint",
     "test-cov": "npm run test-only -- --coverage",
     "test-travis": "npm run test-cov && npm run eslint",
-    "test-only": "jest"
+    "test-only": "echo 'No test for now...'"
   },
   "repository": {
     "type": "git",
