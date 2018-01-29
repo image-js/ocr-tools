@@ -41,6 +41,7 @@
   "dependencies": {
     "mkdirp": "^0.5.1",
     "ml-array-mean": "^1.0.1",
-    "ml-distance": "^2.1.1"
+    "ml-distance": "^2.1.1",
+    "ml-kmeans": "^3.0.0"
   }
 }
