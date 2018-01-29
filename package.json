@@ -1,6 +1,6 @@
 {
   "name": "ocr-tools",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Various tools for OCR",
   "main": "./src/index.js",
   "files": [
