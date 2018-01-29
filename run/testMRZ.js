@@ -26,7 +26,7 @@ var options = {
 
 var fontFingerprint = loadFontFingerprint(options.fingerprintOptions);
 IJS.load('../output/image.png').then(function (image) {
-  console.log('Image size: ', image.width, image.height),
+  console.log('Image size: ', image.width, image.height);
   console.time('full OCR process');
 
   var result = runMRZ(image, fontFingerprint, options).ocrResult;

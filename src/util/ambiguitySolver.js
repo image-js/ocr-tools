@@ -14,12 +14,12 @@ const IS_NUMBER = {
 function ambiguitySolver(report) {
   var positions = new Array(report.length);
   var dataset = [];
-  for (var i = 0; i < report.length; ++i) {
+  for (let i = 0; i < report.length; ++i) {
     positions[i] = [];
     var text = report[i].text;
-    for (var j = 0; j < text.length; ++j) {
+    for (let j = 0; j < text.length; ++j) {
       var letter = text[j];
-      var datasetElement = [];
+      const datasetElement = [];
       if (letter === '<') {
         continue;
       }
@@ -35,10 +35,10 @@ function ambiguitySolver(report) {
 
   var isNumber = centroids[0].centroid[0] < centroids[1].centroid[0] ? 1 : 0;
   var k = 0;
-  for (i = 0; i < report.length; ++i) {
+  for (let i = 0; i < report.length; ++i) {
     text = report[i].text;
     var toReplace = '';
-    for (j = 0; j < text.length; ++j) {
+    for (let j = 0; j < text.length; ++j) {
       letter = text[j];
       if (letter === '<') {
         toReplace += letter;
