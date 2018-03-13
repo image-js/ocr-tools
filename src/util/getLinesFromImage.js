@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-var groupRoisPerLine = require('./groupRoisPerLine');
-const mean = require('ml-array-mean');
+var groupRoisPerLine = require("./groupRoisPerLine");
+const mean = require("ml-array-mean");
 
 module.exports = function getLinesFromImage(image, options = {}) {
   const { roiOptions, fingerprintOptions } = options;
@@ -24,7 +24,7 @@ module.exports = function getLinesFromImage(image, options = {}) {
     }
     maskOptions.threshold = greyThreshold;
   } else {
-    throw new Error('no algorithm or greyThreshold provided to apply.');
+    throw new Error("no algorithm or greyThreshold provided to apply.");
   }
 
   var mask = grey.mask(maskOptions);
@@ -33,10 +33,12 @@ module.exports = function getLinesFromImage(image, options = {}) {
   manager.fromMask(mask);
   // TODO: change this options until it works
   var rois = manager.getRois(roiOptions);
-  var averageSurface = mean(rois.map((elem) => elem.surface));
+  var averageSurface = mean(rois.map(elem => elem.surface));
   var painted = manager.paint(roiOptions);
 
-  rois.forEach(function (roi) {
+  rois = rois.filter(roi => roi.width !== 1 || roi.height !== 1);
+
+  rois.forEach(function(roi) {
     var small = roi.getMask().scale({
       width: fingerprintOptions.width,
       height: fingerprintOptions.height
@@ -52,7 +54,7 @@ module.exports = function getLinesFromImage(image, options = {}) {
     roi.mbrSurface = roi.mbrWidth * roi.mbrHeight;
     roi.fillingFactor = roi.surface / roi.mbrSurface;
 
-    mbr = mbr.map((point) => [
+    mbr = mbr.map(point => [
       point[0] + mask.position[0],
       point[1] + mask.position[1]
     ]);
