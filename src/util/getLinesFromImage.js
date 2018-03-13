@@ -35,6 +35,14 @@ module.exports = function getLinesFromImage(image, options = {}) {
   var rois = manager.getRois(roiOptions);
   rois = filterRois(rois);
 
+  if (rois.length < 60) {
+    mask = getMask(grey, maskOptions);
+    manager = image.getRoiManager();
+    manager.fromMask(mask);
+    rois = manager.getRois(roiOptions);
+    rois = filterRois(rois);
+  }
+
   var averageSurface = mean(rois.map((elem) => elem.surface));
 
   var painted = manager.paint(roiOptions);
