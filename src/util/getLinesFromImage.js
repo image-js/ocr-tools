@@ -29,23 +29,15 @@ module.exports = function getLinesFromImage(image, options = {}) {
     throw new Error('no algorithm or greyThreshold provided to apply.');
   }
 
-  // let mask = getMask(grey, maskOptions);
   var mask = grey.mask(maskOptions);
-
   var manager = image.getRoiManager();
   manager.fromMask(mask);
-  // TODO: change this options until it works
   var rois = manager.getRois(roiOptions);
+  rois = filterRois(rois);
+
   var averageSurface = mean(rois.map((elem) => elem.surface));
-  var medianSurface = median(rois.map((elem) => elem.surface));
+
   var painted = manager.paint(roiOptions);
-
-  rois = rois.filter((roi) => roi.width !== 1 || roi.height !== 1);
-  rois = rois.filter(
-    (roi) => roi.surface * 3 > medianSurface && roi.surface / 3 < medianSurface
-  );
-
-  console.log('number of rois', rois.length);
 
   rois.forEach(function (roi) {
     var small = roi.getMask().scale({
@@ -111,4 +103,14 @@ function getMask(image, maskOptions) {
     }
   }
   return mask;
+}
+
+function filterRois(rois) {
+  rois = rois.filter((roi) => roi.width !== 1 || roi.height !== 1);
+  var medianSurface = median(rois.map((elem) => elem.surface));
+  rois = rois.filter(
+    (roi) => roi.surface * 3 > medianSurface && roi.surface / 3 < medianSurface
+  );
+
+  return rois;
 }
