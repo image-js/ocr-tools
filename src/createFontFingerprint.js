@@ -28,7 +28,7 @@ module.exports = function createFontFingerprint(options = {}) {
       valid = false;
     }
   }
-  if (lines.length !== symbols.length) {
+  if (lines.lines.length !== symbols.length) {
     console.log('Number of lines not correct: ', lines.length, symbols.length);
     valid = false;
   }
@@ -37,7 +37,7 @@ module.exports = function createFontFingerprint(options = {}) {
     maxSimilarity: options.fingerprintOptions.maxSimilarity
   });
 
-  const results = lines.map(function (line) {
+  const results = lines.lines.map(function (line) {
     return {
       symbol: line.symbol,
       fingerprints: line.fingerprints
