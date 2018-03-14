@@ -5,7 +5,10 @@ var groupRoisPerLine = require('./groupRoisPerLine');
 const mean = require('ml-array-mean');
 const median = require('ml-array-median');
 
-module.exports = function getLinesFromImage(image, options = {}) {
+module.exports = function getLinesFromImage(
+  image,
+  options = { backgroundColor: 255 }
+) {
   const { roiOptions, fingerprintOptions } = options;
 
   var grey = image.grey({ allowGrey: true });
@@ -48,14 +51,18 @@ module.exports = function getLinesFromImage(image, options = {}) {
   var painted = manager.paint(roiOptions);
 
   rois.forEach(function (roi) {
-    var small = roi.getMask().scale({
-      width: fingerprintOptions.width,
-      height: fingerprintOptions.height
+    const roiMask = roi.getMask();
+    const size = Math.max(roi.width, roi.height);
+    const mask = new Image(size, size, { kind: 'BINARY' });
+    mask.insert(roiMask, { inPlace: true });
+
+    var small = mask.scale({
+      width: fingerprintOptions.size,
+      height: fingerprintOptions.size
     });
     roi.data = Array.from(small.data);
 
     // draw bounding boxes
-    var mask = roi.getMask();
     var mbr = mask.minimalBoundingRectangle();
     roi.mbr = mbr;
     roi.mbrWidth = getDistance(mbr[0], mbr[1]);

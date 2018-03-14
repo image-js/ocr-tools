@@ -15,6 +15,7 @@ function generateSymbolImage(options = {}) {
 
   const grid = Math.floor(fontSize * 1.2);
   fontName = `${fontSize}px ${fontName}`;
+  console.log(fontName);
 
   // default RGBA 8bits
   const image = new IJS(

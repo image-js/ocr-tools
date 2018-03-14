@@ -38,8 +38,7 @@ var files = FS.readdirSync(dir);
           greyThreshold: 0.5
         },
         fingerprintOptions: {
-          height: 12,
-          width: 12,
+          size: 12,
           minSimilarity: 0.7
         }
       };
@@ -61,8 +60,7 @@ var files = FS.readdirSync(dir);
           greyThreshold: 0.5
         },
         fingerprintOptions: {
-          height: 12,
-          width: 12,
+          size: 12,
           minSimilarity: 0.5
         }
       };

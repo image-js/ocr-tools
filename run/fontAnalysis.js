@@ -13,8 +13,7 @@ var options = {
     greyThreshold: 0.5
   },
   fingerprintOptions: {
-    height: 12,
-    width: 12,
+    size: 12,
     category: symbols.label,
     maxSimilarity: 0.7, // we store all the different fontFingerprint
     fontName: ''

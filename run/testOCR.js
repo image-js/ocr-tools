@@ -1,6 +1,5 @@
 'use strict';
 
-
 const runOCR = require('../src/runOCR');
 const Image = require('image-js').default;
 const loadFontFingerprint = require('../src/util/loadFontData');
@@ -14,25 +13,28 @@ var options = {
     greyThreshold: 0.5
   },
   fingerprintOptions: {
-    height: 12,
-    width: 12,
+    size: 12,
     minSimilarity: 0.7,
     fontName: 'ocrb',
     category: symbols.label
-  },
+  }
 };
-
 
 var fontFingerprint = loadFontFingerprint(options.fingerprintOptions);
 
-
 Image.load('demo/ocrb.png').then(function (image) {
-
   var result = runOCR(image, fontFingerprint, options);
   console.log(result);
 
   for (var line of result.lines) {
-    console.log(line.text, line.similarity, ' Found:', line.found, ' Not found:', line.notFound);
+    console.log(
+      line.text,
+      line.similarity,
+      ' Found:',
+      line.found,
+      ' Not found:',
+      line.notFound
+    );
   }
   console.log('Total similarity', result.totalSimilarity);
   console.log('Total found', result.totalFound);
@@ -42,5 +44,4 @@ Image.load('demo/ocrb.png').then(function (image) {
   //for (var roi of result.lines[1].rois) {
   //    console.log(JSON.stringify(roiOptions));
   //}
-
 });

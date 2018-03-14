@@ -2,7 +2,7 @@
 
 const LETTERS_NUMBERS = { symbols: [], label: 'lettersNumbers' };
 const NUMBERS = { symbols: [], label: 'numbers' };
-const MRZ = { symbols: [], label: 'numbers' };
+const MRZ = { symbols: [], label: 'mrz' };
 
 for (let i = '0'.charCodeAt(0); i <= '9'.charCodeAt(0); i++) {
   LETTERS_NUMBERS.symbols.push(i);

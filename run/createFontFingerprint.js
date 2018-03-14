@@ -5,6 +5,11 @@ var createFontFingerprint = require('../src/createFontFingerprint');
 var symbols = require('../src/util/symbolClasses').MRZ; // SYMBOLS MRZ NUMBERS
 var saveFingerprint = require('../src/util/saveFontData');
 var getInstalledRegularFonts = require('../src/util/getInstalledRegularFonts');
+var canvas = require('canvas');
+
+canvas.registerFont('OcrB Regular.ttf', {
+  family: 'OcrB'
+});
 
 var fonts = getInstalledRegularFonts(); //.filter(elem => elem === 'OCRB-Regular');
 
@@ -21,8 +26,7 @@ var options = {
     greyThreshold: 0.5
   },
   fingerprintOptions: {
-    height: 64,
-    width: 45,
+    size: 12,
     category: symbols.label,
     maxSimilarity: 0.95, // we store all the different fontFingerprint
     fontName: ''

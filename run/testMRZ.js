@@ -16,8 +16,7 @@ var options = {
     // on min / max values of the grey image
   },
   fingerprintOptions: {
-    height: 12,
-    width: 12,
+    size: 12,
     minSimilarity: 0.7,
     fontName: 'ocrb',
     category: symbols.label
