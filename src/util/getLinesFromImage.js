@@ -37,6 +37,7 @@ module.exports = function getLinesFromImage(image, options = {}) {
 
   if (rois.length < 60) {
     mask = getMask(grey, maskOptions);
+    mask.save('xyz.png');
     manager = image.getRoiManager();
     manager.fromMask(mask);
     rois = manager.getRois(roiOptions);
@@ -84,7 +85,7 @@ function getDistance(p1, p2) {
 
 function getMask(image, maskOptions) {
   let mask = new Image(image.width, image.height, { kind: 'BINARY' });
-  const partsY = 4;
+  const partsY = 1;
   const partsX = 30;
   const h = Math.floor(image.height / partsY);
   const w = Math.floor(image.width / partsX);
@@ -107,7 +108,7 @@ function getMask(image, maskOptions) {
         height
       };
       const imagePart = image.crop(params).mask(maskOptions);
-      mask.insert(imagePart, { inPlace: true, offsetX: x, offsetY: y });
+      mask.insert(imagePart, { inPlace: true, x: x, y: y });
     }
   }
   return mask;
