@@ -37,7 +37,6 @@ module.exports = function getLinesFromImage(image, options = {}) {
 
   if (rois.length < 60) {
     mask = getMask(grey, maskOptions);
-    mask.save('xyz.png');
     manager = image.getRoiManager();
     manager.fromMask(mask);
     rois = manager.getRois(roiOptions);
