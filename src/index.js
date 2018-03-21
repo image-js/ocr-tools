@@ -6,5 +6,6 @@ module.exports = {
   groupRoisPerLine: require('./util/groupRoisPerLine'),
   runFontAnalysis: require('./runFontAnalysis'),
   loadAllFontData: require('./util/loadAllFontData'),
-  loadFontData: require('./util/loadFontData')
+  loadFontData: require('./util/loadFontData'),
+  generateSymbolImage: require('./util/generateSymbolImage')
 };

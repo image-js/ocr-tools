@@ -6,7 +6,10 @@ const appendFingerprints = require('../src/util/appendFingerprints');
 const getLinesFromImage = require('./util/getLinesFromImage');
 
 module.exports = function createFontFingerprint(options = {}) {
-  const image = generateSymbolImage(options);
+  const image = generateSymbolImage({
+    imageOptions: options.imageOptions,
+    fontName: options.fontName
+  });
   image.save(
     `png/${options.fingerprintOptions.fontName}_${
       options.roiOptions.greyThreshold

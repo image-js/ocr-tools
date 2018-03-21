@@ -11,7 +11,7 @@ function generateSymbolImage(options = {}) {
     backgroundColor = 255,
     symbols = SYMBOLS.symbols
   } = options.imageOptions;
-  let { fontName = 'Helvetica' } = options.fingerprintOptions;
+  let { fontName = 'Helvetica' } = options;
 
   const grid = Math.floor(fontSize * 1.2);
   fontName = `${fontSize}px ${fontName}`;
