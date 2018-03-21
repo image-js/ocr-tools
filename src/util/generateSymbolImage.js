@@ -51,7 +51,7 @@ function generateSymbolImage(options = {}) {
     }
   }
   image.paintLabels(labels, positions, paintOptions);
-  return image;
+  return { image, chars: labels };
 }
 
 module.exports = generateSymbolImage;
