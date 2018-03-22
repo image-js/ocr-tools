@@ -17,6 +17,8 @@ for (let i = 'a'.charCodeAt(0); i <= 'z'.charCodeAt(0); i++) {
   LETTERS_NUMBERS.symbols.push(i);
 }
 
+MRZ.symbols.push('<'.charCodeAt(0));
+
 module.exports = {
   LETTERS_NUMBERS,
   NUMBERS,
