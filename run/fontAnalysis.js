@@ -16,14 +16,14 @@ var options = {
     height: 12,
     width: 12,
     category: symbols.label,
-    maxSimilarity: 0.7, // we store all the different fontFingerprint
-    fontName: ''
+    maxSimilarity: 0.7 // we store all the different fontFingerprint
   },
   imageOptions: {
     symbols: symbols.symbols,
     fontSize: 48, // font size we use at the beginning
     allowedRotation: 5, // we may rotate the font
-    numberPerLine: 11 // better to have a odd number
+    numberPerLine: 11, // better to have a odd number
+    fontName: ''
   }
 };
 

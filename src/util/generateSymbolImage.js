@@ -6,12 +6,12 @@ const SYMBOLS = require('./symbolClasses').MRZ;
 function generateSymbolImage(options = {}) {
   let {
     fontSize = 24,
+    fontName = 'Helvetica',
     numberPerLine = 11,
     allowedRotation = 2,
     backgroundColor = 255,
     symbols = SYMBOLS.symbols
-  } = options.imageOptions;
-  let { fontName = 'Helvetica' } = options;
+  } = options;
 
   const grid = Math.floor(fontSize * 1.2);
   fontName = `${fontSize}px ${fontName}`;
