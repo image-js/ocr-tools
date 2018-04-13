@@ -30,6 +30,9 @@
     "url": "https://github.com/cheminfo-js/ocr-tools/issues"
   },
   "homepage": "https://github.com/cheminfo-js/ocr-tools#readme",
+  "optionalDependencies": {
+    "font-manager": "^0.2.2"
+  },
   "devDependencies": {
     "eslint": "^4.16.0",
     "eslint-config-cheminfo": "^1.14.1",
@@ -38,7 +41,6 @@
     "jest": "^22.1.4"
   },
   "dependencies": {
-    "font-manager": "^0.2.2",
     "mkdirp": "^0.5.1",
     "ml-array-mean": "^1.0.1",
     "ml-array-median": "^1.0.1",
