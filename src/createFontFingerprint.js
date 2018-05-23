@@ -3,6 +3,7 @@
 
 const generateSymbolImage = require('../src/util/generateSymbolImage');
 const appendFingerprints = require('../src/util/appendFingerprints');
+
 const getLinesFromImage = require('./util/getLinesFromImage');
 
 module.exports = function createFontFingerprint(options = {}) {

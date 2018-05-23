@@ -1,5 +1,6 @@
 'use strict';
 
+// eslint-disable-next-line
 const fontManager = require('font-manager');
 
 module.exports = function getInstalledRegularFonts() {

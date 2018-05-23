@@ -1,6 +1,7 @@
 'use strict';
 
 var IJS = require('image-js').Image;
+
 var loadFingerprints = require('../src/util/loadAllFontData');
 var runFontAnalysis = require('../src/runFontAnalysis');
 var symbols = require('../src/util/symbolClasses').MRZ; // SYMBOLS MRZ NUMBERS

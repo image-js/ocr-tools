@@ -1,7 +1,10 @@
 'use strict';
 
+// eslint-disable-next-line
 const runMRZ = require('../src/runMRZ');
+
 const IJS = require('image-js').default;
+
 const loadFontFingerprint = require('../src/util/loadFontData');
 const symbols = require('../src/util/symbolClasses').MRZ; // SYMBOLS MRZ NUMBERS
 

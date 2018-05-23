@@ -1,9 +1,10 @@
 'use strict';
 
 const Image = require('image-js').Image;
-var groupRoisPerLine = require('./groupRoisPerLine');
 const mean = require('ml-array-mean');
 const median = require('ml-array-median');
+
+var groupRoisPerLine = require('./groupRoisPerLine');
 
 module.exports = function getLinesFromImage(image, options = {}) {
   const { roiOptions, fingerprintOptions } = options;

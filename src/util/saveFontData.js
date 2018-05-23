@@ -1,9 +1,11 @@
 'use strict';
 
-const getFingerprintName = require('./getFontDataFilename');
 
 const fs = require('fs');
+
 const mkdirp = require('mkdirp');
+
+const getFingerprintName = require('./getFontDataFilename');
 
 module.exports = function saveFingerprint(fingerprint, options = {}) {
   const file = getFingerprintName(options);

@@ -1,6 +1,7 @@
 'use strict';
 
 const IJS = require('image-js').Image;
+
 const SYMBOLS = require('./symbolClasses').MRZ;
 
 function generateSymbolImage(options = {}) {

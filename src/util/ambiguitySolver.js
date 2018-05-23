@@ -1,6 +1,7 @@
 'use strict';
 
 const kmeans = require('ml-kmeans');
+
 const variablesForClust = ['height'];
 // if you want to add a new ambiguity to solver just add a new string to the array to be analysed
 const IS_LETTER = {

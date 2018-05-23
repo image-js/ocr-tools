@@ -2,7 +2,9 @@
 
 
 const runOCR = require('../src/runOCR');
+
 const Image = require('image-js').default;
+
 const loadFontFingerprint = require('../src/util/loadFontData');
 const symbols = require('../src/util/symbolClasses').MRZ; // SYMBOLS MRZ NUMBERS
 
@@ -27,7 +29,6 @@ var fontFingerprint = loadFontFingerprint(options.fingerprintOptions);
 
 
 Image.load('demo/ocrb.png').then(function (image) {
-
   var result = runOCR(image, fontFingerprint, options);
   console.log(result);
 
@@ -39,8 +40,7 @@ Image.load('demo/ocrb.png').then(function (image) {
   console.log('Total not found', result.totalNotFound);
 
   // for the first line we just show the roiOptions
-  //for (var roi of result.lines[1].rois) {
+  // for (var roi of result.lines[1].rois) {
   //    console.log(JSON.stringify(roiOptions));
-  //}
-
+  // }
 });

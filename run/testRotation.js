@@ -1,7 +1,9 @@
 'use strict';
 
 const FS = require('fs');
+
 const IJS = require('image-js');
+
 const getRotation = require('../src/getRotation');
 const runOCR = require('../src/runOCR');
 
@@ -13,7 +15,6 @@ var dir = 'demo/';
 var files = FS.readdirSync(dir);
 
 (async function () {
-
   for (let file of files) {
     if (file.match(/(passport)/)) {
       let image = await IJS.load(dir + file);
@@ -75,10 +76,7 @@ var files = FS.readdirSync(dir);
       var mzr = result.map((a) => a.text);
 
       console.log(mzr.join('\r\n'));
-
     }
-
-
   }
 })();
 

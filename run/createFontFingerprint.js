@@ -6,10 +6,10 @@ var symbols = require('../src/util/symbolClasses').MRZ; // SYMBOLS MRZ NUMBERS
 var saveFingerprint = require('../src/util/saveFontData');
 var getInstalledRegularFonts = require('../src/util/getInstalledRegularFonts');
 
-var fonts = getInstalledRegularFonts(); //.filter(elem => elem === 'OCRB-Regular');
+var fonts = getInstalledRegularFonts(); // .filter(elem => elem === 'OCRB-Regular');
 
-//fonts=fonts.filter(a=>a.toLowerCase().indexOf('ocr')>=0).slice(0,3);
-//fonts=fonts.slice(0,1);
+// fonts=fonts.filter(a=>a.toLowerCase().indexOf('ocr')>=0).slice(0,3);
+// fonts=fonts.slice(0,1);
 
 var greyThresholds = [0.3, 0.5, 0.7];
 
