@@ -37,7 +37,7 @@
     "eslint": "^4.16.0",
     "eslint-config-cheminfo": "^1.14.1",
     "eslint-plugin-jest": "^21.7.0",
-    "image-js": "^0.20.0",
+    "image-js": "^0.21.0",
     "jest": "^22.1.4"
   },
   "dependencies": {
@@ -45,6 +45,6 @@
     "ml-array-mean": "^1.0.1",
     "ml-array-median": "^1.0.1",
     "ml-distance": "^2.1.1",
-    "ml-kmeans": "^3.0.0"
+    "ml-kmeans": "^4.0.0"
   }
 }
