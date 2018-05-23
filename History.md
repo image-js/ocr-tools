@@ -1,3 +1,13 @@
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/cheminfo-js/ocr/compare/v0.1.0...v0.1.1) (2018-05-23)
+
+
+### Bug Fixes
+
+* install missing eslint plugin ([4780696](https://github.com/cheminfo-js/ocr/commit/4780696))
+
+
+
 <a name="0.1.0"></a>
 # [0.1.0](https://github.com/cheminfo-js/ocr/compare/v0.0.5...v0.1.0) (2018-04-13)
 
