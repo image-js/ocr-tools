@@ -2,10 +2,11 @@
 
 const doOcrOnLines = require('./util/doOcrOnLines');
 const getLinesFromImage = require('./util/getLinesFromImage');
+const getFingerprintDataFromRoi = require('./util/getFingerprintDataFromRoi');
 
 module.exports = function runFontAnalysis(image, allFontData, options = {}) {
   const lines = getLinesFromImage(image, options).lines;
-
+  getFingerprintDataFromRoi(lines, options.fingerprintOptions);
   var fingerprintOptions = Object.assign({}, options.fingerprintOptions, {
     minSimilarity: 0.9
   });

@@ -3,6 +3,7 @@
 
 const generateSymbolImage = require('../src/util/generateSymbolImage');
 const appendFingerprints = require('../src/util/appendFingerprints');
+const setFingerprintDataOnRoi = require('../src/util/setFingerprintDataOnRoi');
 
 const getLinesFromImage = require('./util/getLinesFromImage');
 
@@ -14,7 +15,7 @@ module.exports = function createFontFingerprint(options = {}) {
     }.jpg`
   );
   const lines = getLinesFromImage(image, options);
-
+  setFingerprintDataOnRoi(lines);
   const symbols = options.imageOptions.symbols;
 
   let valid = true;

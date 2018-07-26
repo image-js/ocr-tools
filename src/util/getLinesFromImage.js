@@ -6,9 +6,7 @@ const median = require('ml-array-median');
 
 var groupRoisPerLine = require('./groupRoisPerLine');
 
-module.exports = function getLinesFromImage(image, options = {}) {
-  const { roiOptions, fingerprintOptions } = options;
-
+module.exports = function getLinesFromImage(image, roiOptions = {}) {
   var grey = image.grey({ allowGrey: true });
 
   // we should allow to make a level without making a level ...
@@ -49,12 +47,6 @@ module.exports = function getLinesFromImage(image, options = {}) {
   var painted = manager.paint(roiOptions);
 
   rois.forEach(function (roi) {
-    var small = roi.getMask().scale({
-      width: fingerprintOptions.width,
-      height: fingerprintOptions.height
-    });
-    roi.data = Array.from(small.data);
-
     // draw bounding boxes
     var mask = roi.getMask();
     var mbr = mask.minimalBoundingRectangle();
