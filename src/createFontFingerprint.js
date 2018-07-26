@@ -15,7 +15,7 @@ module.exports = function createFontFingerprint(options = {}) {
     }.jpg`
   );
   const lines = getLinesFromImage(image, options);
-  setFingerprintDataOnRoi(lines);
+  setFingerprintDataOnRoi(lines, options.fingerprintOptions);
   const symbols = options.imageOptions.symbols;
 
   let valid = true;

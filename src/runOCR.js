@@ -6,6 +6,6 @@ const setFingerprintDataOnRoi = require('./util/setFingerprintDataOnRoi');
 
 module.exports = function runOCR(image, fontFingerprint, options = {}) {
   const lines = getLinesFromImage(image, options);
-  setFingerprintDataOnRoi(lines);
+  setFingerprintDataOnRoi(lines, options.fingerprintOptions);
   return doOcrOnLines(lines, fontFingerprint, options.fingerprintOptions);
 };
