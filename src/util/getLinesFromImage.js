@@ -50,7 +50,7 @@ module.exports = function getLinesFromImage(image, roiOptions = {}) {
     // draw bounding boxes
     var mask = roi.getMask();
     var mbr = mask.minimalBoundingRectangle();
-    roi.mbr = mbr;
+    roi.mbr.rectangle = mbr;
     roi.mbrWidth = getDistance(mbr[0], mbr[1]);
     roi.mbrHeight = getDistance(mbr[1], mbr[2]);
     roi.mbrSurface = roi.mbrWidth * roi.mbrHeight;
